@@ -242,7 +242,7 @@
       "description": "Confirmation",
       "type": "html-only",
       "content": {
-        "html": "<div style='text-align: center; color: black; font-family: sans-serif;'><p style='font-size: 18px; font-weight: bold; margin-bottom: 20px;'>Thank You!</p><p>You have successfully submitted a request to the ClientG Same-Day Healthy Blood Sample Program!</p><p style='margin-top: 20px;'>If you need to cancel or reschedule your request, please email your research coordinator at <a href='mailto:janssen-sameday@company.com'>janssen-sameday@company.com</a>.</p><p style='margin-top: 30px;'>Thank you,<br>BioRequest Team</p></div>"
+        "html": "<div style='text-align: center; color: black; font-family: sans-serif;'><p style='font-size: 18px; font-weight: bold; margin-bottom: 20px;'>Thank You!</p><p>You have successfully submitted a request to the ClientG Same-Day Healthy Blood Sample Program!</p><p style='margin-top: 20px;'>If you need to cancel or reschedule your request, please email your research coordinator at <a href='mailto:clientg-sameday@company.com'>clientg-sameday@company.com</a>.</p><p style='margin-top: 30px;'>Thank you,<br>BioRequest Team</p></div>"
       }
     }
   ]
