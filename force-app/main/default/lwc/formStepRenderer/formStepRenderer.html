@@ -1,0 +1,54 @@
+﻿<template>
+    <template if:true={stepData}>
+        <div class="step-container">
+            <div class="content-wrapper">
+                <!-- Header section: hide for cohort step as it manages its own headers -->
+                <template if:false={isCohortStep}>
+                    <div class="header-section">
+                        <h1 class="step-title">{stepData.label}</h1>
+                        <p class="step-description">{stepData.description}</p>
+                    </div>
+                </template>
+                
+                <div class="form-container">
+                    <!-- SPECIAL CASE: Step 4 = Study Cohorts -->
+                    <template if:true={isCohortStep}>
+                        <c-form-cohort-section
+                            state={state}
+                            answers={answers}
+                            onvaluechange={handleValueChange}
+                            oncohortconfigchange={handleCohortConfigChange}>
+                        </c-form-cohort-section>
+                    </template>
+
+                    <!-- DEFAULT: all other steps use the dynamic sections layout -->
+                    <template if:false={isCohortStep}>
+                        <template for:each={sections} for:item="section" for:index="index">
+                            <div key={section.name} class="section-wrapper">
+                                <!-- Add Section Above -->
+
+                                <div class="section-container slds-position_relative">
+
+                                    <c-form-section
+                                        section-data={section}
+                                        state={state}
+                                        wizard-config={wizardConfig}
+                                        onvaluechange={handleValueChange}
+                                        onvaluechange2={handleValueChange2}
+                                        ondeletefield={handleDeleteField}
+                                        onaddfield={handleAddField}
+                                        onreorderfields={handleReorderFields}>
+                                    </c-form-section>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+
+                    <template if:true={isHtmlType}>
+                        <div lwc:dom="manual" class="html-content"></div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

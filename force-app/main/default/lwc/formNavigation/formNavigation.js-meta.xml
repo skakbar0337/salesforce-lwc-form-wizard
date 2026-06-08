@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>61.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Form Navigation</masterLabel>
+    <description>Navigation component with Previous/Next/Complete buttons for Form Wizard.</description>
+
+    <!-- Where the component can be used -->
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+
+    <!-- Design-time properties -->
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage,lightning__RecordPage,lightning__HomePage,lightningCommunity__Default">
+            <property
+                name="showPrevious"
+                type="Boolean"
+                label="Show Previous Button"
+                description="Controls visibility of the Previous button"
+                default="true"
+            />
+            <property
+                name="showNext"
+                type="Boolean"
+                label="Show Next Button"
+                description="Controls visibility of the Next/Complete button"
+                default="true"
+            />
+            <property
+                name="disablePrevious"
+                type="Boolean"
+                label="Disable Previous Button"
+                description="Disables the Previous button when true"
+                default="false"
+            />
+            <property
+                name="disableNext"
+                type="Boolean"
+                label="Disable Next Button"
+                description="Disables the Next/Complete button when true"
+                default="false"
+            />
+            <property
+                name="isLastStep"
+                type="Boolean"
+                label="Is Last Step"
+                description="When true, changes Next button to Complete button"
+                default="false"
+            />
+
+            <!-- 🔧 FIXED NAMES HERE -->
+            <property
+                name="customNextLabel"
+                type="String"
+                label="Next Button Label"
+                description="Custom label for Next button (optional)"
+            />
+            <property
+                name="customPreviousLabel"
+                type="String"
+                label="Previous Button Label"
+                description="Custom label for Previous button (optional)"
+            />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

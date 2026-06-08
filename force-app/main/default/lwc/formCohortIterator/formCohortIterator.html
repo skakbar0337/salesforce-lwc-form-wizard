@@ -1,0 +1,2819 @@
+<template>
+    <div class="cohort-iterator">
+        <!-- Cohort header with name and progress -->
+        <div class="cohort-header">
+            <div class="cohort-pill">{cohortName}</div>
+            <template if:true={showCohortProgress}>
+                <div class="cohort-progress-text">
+                    Cohort {currentCohortNumber} of {totalCohorts}
+                </div>
+            </template>
+        </div>
+
+        <!-- ========== Page 1: Inclusion / Exclusion ========== -->
+        <template if:true={isPage1}>
+
+            <div class="page-header">
+                <h2 class="page-title">Inclusion/Exclusion Criteria</h2>
+                <p class="page-subtitle">Specify requirements for this cohort</p>
+            </div>
+
+            <!-- Number of Donors Required -->
+            <div class="card">
+                <h3 class="card-title">Study Details</h3>
+                <div class="field-group">
+                    <c-dynamic-input
+                        name="num_donors"
+                        label="Number of Donors Required"
+                        type="number"
+                        min="1"
+                        placeholder="e.g., 25"
+                        required="true"
+                        show-label="true"
+                        state={cohortScopedState}
+                        onvaluechange2={handleDynamicInputChange}
+                        data-question="num_donors">
+                    </c-dynamic-input>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Inclusion Criteria</h3>
+
+                <div class="field-group">
+                    <c-dynamic-input
+                        name="incl_diag"
+                        label="Diagnosis Criteria"
+                        type="textarea"
+                        rows="3"
+                        show-label="true"
+                        state={cohortScopedState}
+                        onvaluechange2={handleDynamicInputChange}
+                        data-question="incl_diag">
+                    </c-dynamic-input>
+                </div>
+
+                <div class="field-group">
+                    <c-dynamic-input
+                        name="incl_med"
+                        label="Medications/Treatments Criteria"
+                        type="textarea"
+                        rows="3"
+                        show-label="true"
+                        state={cohortScopedState}
+                        onvaluechange2={handleDynamicInputChange}
+                        data-question="incl_med">
+                    </c-dynamic-input>
+                </div>
+
+                <div class="field-group">
+                    <c-dynamic-input
+                        name="incl_other"
+                        label="Other Criteria"
+                        type="textarea"
+                        rows="3"
+                        show-label="true"
+                        state={cohortScopedState}
+                        onvaluechange2={handleDynamicInputChange}
+                        data-question="incl_other">
+                    </c-dynamic-input>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Exclusion Criteria</h3>
+
+                <div class="field-group">
+                    <c-dynamic-input
+                        name="excl_diag"
+                        label="Diagnosis Criteria"
+                        type="textarea"
+                        rows="3"
+                        show-label="true"
+                        state={cohortScopedState}
+                        onvaluechange2={handleDynamicInputChange}
+                        data-question="excl_diag">
+                    </c-dynamic-input>
+                </div>
+
+                <div class="field-group">
+                    <c-dynamic-input
+                        name="excl_med"
+                        label="Medications/Treatments Criteria"
+                        type="textarea"
+                        rows="3"
+                        show-label="true"
+                        state={cohortScopedState}
+                        onvaluechange2={handleDynamicInputChange}
+                        data-question="excl_med">
+                    </c-dynamic-input>
+                </div>
+
+                <div class="field-group">
+                    <c-dynamic-input
+                        name="excl_other"
+                        label="Other Criteria"
+                        type="textarea"
+                        rows="3"
+                        show-label="true"
+                        state={cohortScopedState}
+                        onvaluechange2={handleDynamicInputChange}
+                        data-question="excl_other">
+                    </c-dynamic-input>
+                </div>
+            </div>
+        </template>
+
+        <!-- ========== Page 2: Leukopak Configuration ========== -->
+        <template if:true={isPage2Leukopak}>
+            <div class="page-header">
+                <h2 class="page-title">Leukopak Information</h2>
+                <p class="page-subtitle">Configure your leukopak requirements and select any additional biospecimen types needed</p>
+            </div>
+
+            <!-- Copy Configuration Feature -->
+            <template if:true={showCopyConfiguration}>
+                <div class="copy-config-container">
+                    <h3 class="copy-config-title">Copy Biospecimen Configuration</h3>
+                    <p class="copy-config-subtitle">
+                        Save time by copying biospecimen types and configurations from a previous cohort with the same workflow type (Leukopak).
+                    </p>
+                    
+                    <div class="copy-config-controls">
+                        <div class="copy-config-field">
+                            <label class="copy-config-label">Copy from Cohort</label>
+                            <select 
+                                class="copy-config-select" 
+                                onchange={handleCohortSelectionForCopy}>
+                                <option value="">Select cohort...</option>
+                                <template for:each={availableCohortsForCopy} for:item="cohort">
+                                    <option key={cohort.value} value={cohort.value}>{cohort.label}</option>
+                                </template>
+                            </select>
+                        </div>
+                        
+                        <button 
+                            class="copy-config-button"
+                            disabled={isCopyButtonDisabled}
+                            onclick={handleCopyConfiguration}>
+                            Copy Configuration
+                        </button>
+                        
+                        <p class="copy-config-help">
+                            This will copy all selected biospecimen types and their detailed configurations from the selected cohort.
+                        </p>
+                    </div>
+                </div>
+            </template>
+
+            <div class="card">
+                <h3 class="card-title">Leukopak Configuration</h3>
+
+                <div class="field-group">
+                    <c-dynamic-input
+                        name="leuko_condition"
+                        label="Leukopak Condition"
+                        type="dropdown"
+                        placeholder="Select..."
+                        options={leukoConditionOptions}
+                        required="true"
+                        show-label="true"
+                        state={cohortScopedState}
+                        onvaluechange2={handleDynamicInputChange}
+                        data-question="leuko_condition">
+                    </c-dynamic-input>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Required Donor Information</label>
+                    <div class="checkbox-row">
+                        <label class="checkbox-label">
+                            <input type="checkbox" value="hla" data-question="leuko_donor_hla" checked={leukoDonorHlaChecked} onchange={handleCheckboxChange} />
+                            <span>HLA Typing</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" value="medical_records" data-question="leuko_donor_medical" checked={leukoDonorMedicalChecked} onchange={handleCheckboxChange} />
+                            <span>Medical Records</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" value="cell_counts" data-question="leuko_donor_counts" checked={leukoDonorCountsChecked} onchange={handleCheckboxChange} />
+                            <span>Cell Counts</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="fields-grid-2col">
+                    <div class="field-group">
+                        <c-dynamic-input
+                            name="leuko_size"
+                            label="Leukopak Size"
+                            type="dropdown"
+                            placeholder="Select..."
+                            options={leukoSizeOptions}
+                            required="true"
+                            show-label="true"
+                            state={cohortScopedState}
+                            onvaluechange2={handleDynamicInputChange}
+                            data-question="leuko_size">
+                        </c-dynamic-input>
+                    </div>
+
+                    <div class="field-group">
+                        <c-dynamic-input
+                            name="leuko_quantity"
+                            label="Leukopak Quantity"
+                            type="number"
+                            min="1"
+                            placeholder="e.g., 5"
+                            required="true"
+                            show-label="true"
+                            state={cohortScopedState}
+                            onvaluechange2={handleDynamicInputChange}
+                            data-question="leuko_quantity">
+                        </c-dynamic-input>
+                    </div>
+
+                    <div class="field-group">
+                        <c-dynamic-input
+                            name="leuko_type"
+                            label="Leukopak Type"
+                            type="dropdown"
+                            placeholder="Select..."
+                            options={leukoTypeOptions}
+                            required="true"
+                            show-label="true"
+                            state={cohortScopedState}
+                            onvaluechange2={handleDynamicInputChange}
+                            data-question="leuko_type">
+                        </c-dynamic-input>
+                    </div>
+
+                    <div class="field-group">
+                        <c-dynamic-input
+                            name="leuko_usage"
+                            label="Usage of Leukopak"
+                            type="textarea"
+                            rows="3"
+                            placeholder="Describe intended use"
+                            show-label="true"
+                            state={cohortScopedState}
+                            onvaluechange2={handleDynamicInputChange}
+                            data-question="leuko_usage">
+                        </c-dynamic-input>
+                    </div>
+                </div>
+
+                <!-- Further Processing Checkbox -->
+                <div class="field-group further-processing-checkbox">
+                    <label class="checkbox-label">
+                        <input type="checkbox" data-question="leuko_further_processing" checked={leukoFurtherProcessingChecked} onchange={handleCheckboxChange} />
+                        <span>Would you like further processing of the leukopak?</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Processing Section (conditionally shown) -->
+            <template if:true={showProcessingSection}>
+                <div class="card">
+                    <h3 class="card-title">Processing</h3>
+
+                    <div class="field-group">
+                        <label class="field-label">Leukopak Cell Isolation Type *</label>
+                        <select class="select-input" data-question="leuko_isolation_type" onchange={handleIsolationTypeChange}>
+                            <option value="">Select...</option>
+                            <option value="PBMC">PBMC</option>
+                            <option value="T-Cell">T-Cell</option>
+                            <option value="B-Cell">B-Cell</option>
+                            <option value="NK-Cell">NK-Cell</option>
+                        </select>
+                    </div>
+
+                    <template if:true={showAliquotSizeField}>
+                        <div class="field-group">
+                            <label class="field-label">Isolated Cell Aliquot Size *</label>
+                            <select class="select-input" data-question="leuko_aliquot" onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <template for:each={aliquotSizeOptions} for:item="option">
+                                    <option key={option.value} value={option.value}>{option.label}</option>
+                                </template>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom Aliquot Size Field -->
+                        <template if:true={showLeukoAliquotCustom}>
+                            <div class="field-group">
+                                <label class="field-label">Custom Aliquot Size *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom aliquot size"
+                                    data-question="leuko_aliquot_custom"
+                                    oninput={handleFieldInput}
+                                    value={leukoAliquotCustomValue} />
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </template>
+
+            <div class="card">
+                <h3 class="card-title">Additional Biospecimen Type(s)</h3>
+                <p class="card-subtitle">
+                    If you would like additional biospecimens to be collected during the leukopak collection, please select from the products below:
+                </p>
+
+                <div class="biospecimen-section">
+                    <h4 class="section-heading">Whole Blood Products</h4>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-option">
+                            <input type="checkbox" value="wholeBlood" data-question="leuko_add_wholeBlood" checked={leukoAddWholeBloodChecked} onchange={handleCheckboxChange} />
+                            <span>Whole Blood</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="biospecimen-section">
+                    <h4 class="section-heading">Processed Blood Products</h4>
+                    <div class="checkbox-grid checkbox-grid-4col">
+                        <label class="checkbox-option">
+                            <input type="checkbox" value="pbmc" data-question="leuko_add_pbmc" checked={leukoAddPBMCChecked} onchange={handleCheckboxChange} />
+                            <span>PBMC</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" value="plasma" data-question="leuko_add_plasma" checked={leukoAddPlasmaChecked} onchange={handleCheckboxChange} />
+                            <span>Plasma</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" value="serum" data-question="leuko_add_serum" checked={leukoAddSerumChecked} onchange={handleCheckboxChange} />
+                            <span>Serum</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" value="bulkPlasma" data-question="leuko_add_bulkPlasma" checked={leukoAddBulkPlasmaChecked} onchange={handleCheckboxChange} />
+                            <span>Bulk Plasma</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conditional Whole Blood Card -->
+            <template if:true={showWholeBloodCardLeukopak}>
+                <div class="card">
+                    <h3 class="card-title">Whole Blood</h3>
+                    
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">Whole Blood Collection Materials *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="wholeBlood_collection_materials" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="ACD">ACD</option>
+                                <option value="CPT Sodium Citrate">CPT Sodium Citrate</option>
+                                <option value="CPT Sodium Heparin">CPT Sodium Heparin</option>
+                                <option value="EDTA">EDTA</option>
+                                <option value="Lithium Heparin">Lithium Heparin</option>
+                                <option value="Sodium Citrate">Sodium Citrate</option>
+                                <option value="Sodium Heparin">Sodium Heparin</option>
+                                <option value="SST">SST</option>
+                                <option value="Custom Blood Materials">Custom Blood Materials</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Whole Blood Volume (mL) *</label>
+                            <input
+                                type="number"
+                                class="text-input"
+                                min="1"
+                                max="60"
+                                data-question="wholeBlood_volume"
+                                oninput={handleWholeBloodVolumeInput}
+                                value={wholeBloodVolumeValue} />
+                            <p class="field-help-text">Maximum 60mL when additional biospecimen is selected</p>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Whole Blood Temperature Options *</label>
+                            <select
+                                class="select-input"
+                                data-question="wholeBlood_temperature"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                                <option value="Frozen (Dry Ice)">Frozen (Dry Ice)</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom Blood Materials Field (Leukopak) -->
+                        <template if:true={showWholeBloodCustomMaterials}>
+                            <div class="field-group">
+                                <label class="field-label">Custom Blood Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom material"
+                                    data-question="wholeBlood_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={wholeBloodCustomMaterialsValue} />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional PBMC Card -->
+            <template if:true={showPBMCCardLeukopak}>
+                <div class="card">
+                    <h3 class="card-title">PBMC</h3>
+
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">PBMC Collection Materials *</label>
+                            <select
+                                class="select-input"
+                                data-question="pbmc_collection_materials"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="ACD">ACD</option>
+                                <option value="EDTA">EDTA</option>
+                                <option value="CPT Sodium Citrate">CPT Sodium Citrate</option>
+                                <option value="CPT Sodium Heparin">CPT Sodium Heparin</option>
+                                <option value="Lithium Heparin">Lithium Heparin</option>
+                                <option value="Sodium Heparin">Sodium Heparin</option>
+                                <option value="Custom PBMC Material">Custom PBMC Material</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom PBMC Material Field (Leukopak) -->
+                        <template if:true={showPBMCCustomMaterial}>
+                            <div class="field-group">
+                                <label class="field-label">Custom PBMC Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom PBMC materials"
+                                    data-question="pbmc_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={pbmcCustomMaterialsValue} />
+                            </div>
+                        </template>
+
+                        <div class="field-group">
+                            <label class="field-label">PBMC Blood Volume (mL) *</label>
+                            <input 
+                                type="number" 
+                                class="text-input" 
+                                min="1"
+                                data-question="pbmc_volume" 
+                                oninput={handleFieldInput}
+                                value={pbmcVolumeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">PBMC Aliquot Size *</label>
+                            <select
+                                class="select-input"
+                                data-question="pbmc_aliquot_size"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="5M_Cells">5M Cells</option>
+                                <option value="10M_Cells">10M Cells</option>
+                                <option value="Custom PBMC Aliquot">Custom PBMC Aliquot</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom PBMC Aliquot Size Field (Leukopak) -->
+                        <template if:true={showPBMCCustomAliquot}>
+                            <div class="field-group">
+                                <label class="field-label">Custom PBMC Aliquot Size *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom aliquot size"
+                                    data-question="pbmc_custom_aliquot_size"
+                                    oninput={handleFieldInput}
+                                    value={pbmcCustomAliquotValue} />
+                            </div>
+                        </template>
+
+                        <div class="field-group">
+                            <label class="field-label">PBMC Shipping Temperature *</label>
+                            <select
+                                class="select-input"
+                                data-question="pbmc_shipping_temperature" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Frozen (Dry Ice)">Frozen (Dry Ice)</option>
+                                <option value="LN2">LN2</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">WB Shipment for PBMC Temp. Options</label>
+                            <select 
+                                class="select-input" 
+                                data-question="pbmc_wb_shipment_temp" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            
+
+            <!-- Conditional Plasma Card -->
+            <template if:true={showPlasmaCardLeukopak}>
+                <div class="card">
+                    <h3 class="card-title">Plasma</h3>
+
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">Plasma Collection Materials *</label>
+                            <select
+                                class="select-input"
+                                data-question="plasma_collection_materials"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="ACD">ACD</option>
+                                <option value="CPT Sodium Citrate">CPT Sodium Citrate</option>
+                                <option value="CPT Sodium Heparin">CPT Sodium Heparin</option>
+                                <option value="EDTA">EDTA</option>
+                                <option value="Lithium Heparin">Lithium Heparin</option>
+                                <option value="Sodium Citrate">Sodium Citrate</option>
+                                <option value="Sodium Heparin">Sodium Heparin</option>
+                                <option value="Custom Plasma Materials">Custom Plasma Materials</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom Plasma Materials Field -->
+                        <template if:true={showPlasmaCustomMaterials}>
+                            <div class="field-group">
+                                <label class="field-label">Custom Plasma Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom material"
+                                    data-question="plasma_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={plasmaCustomMaterialsValue} />
+                            </div>
+                        </template>
+
+                        <div class="field-group">
+                            <label class="field-label">Plasma Volume (mL) *</label>
+                            <input
+                                type="number"
+                                class="text-input"
+                                min="1"
+                                data-question="plasma_volume"
+                                oninput={handleFieldInput}
+                                value={plasmaVolumeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Plasma Aliquot Size (mL) *</label>
+                            <input 
+                                type="number" 
+                                class="text-input" 
+                                min="1"
+                                data-question="plasma_aliquot_size" 
+                                oninput={handleFieldInput}
+                                value={plasmaAliquotSizeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Plasma Temperature Options *</label>
+                            <select
+                                class="select-input"
+                                data-question="plasma_temperature"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Temperature of Shipping</label>
+                            <select
+                                class="select-input"
+                                data-question="plasma_shipping_temp"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Serum Card -->
+            <template if:true={showSerumCardLeukopak}>
+                <div class="card">
+                    <h3 class="card-title">Serum</h3>
+
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">Serum Collection Materials *</label>
+                            <select
+                                class="select-input"
+                                data-question="serum_collection_materials"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="ACD">ACD</option>
+                                <option value="CPT Sodium Citrate">CPT Sodium Citrate</option>
+                                <option value="CPT Sodium Heparin">CPT Sodium Heparin</option>
+                                <option value="EDTA">EDTA</option>
+                                <option value="Lithium Heparin">Lithium Heparin</option>
+                                <option value="Sodium Citrate">Sodium Citrate</option>
+                                <option value="Sodium Heparin">Sodium Heparin</option>
+                                <option value="SST">SST</option>
+                                <option value="Custom Serum Materials">Custom Serum Materials</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom Serum Materials Field -->
+                        <template if:true={showSerumCustomMaterials}>
+                            <div class="field-group">
+                                <label class="field-label">Custom Serum Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom material"
+                                    data-question="serum_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={serumCustomMaterialsValue} />
+                            </div>
+                        </template>
+
+                        <div class="field-group">
+                            <label class="field-label">Serum Volume (mL) *</label>
+                            <input
+                                type="number"
+                                class="text-input"
+                                min="1"
+                                data-question="serum_volume"
+                                oninput={handleFieldInput}
+                                value={serumVolumeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Serum Aliquot Size (mL) *</label>
+                            <input 
+                                type="number" 
+                                class="text-input" 
+                                min="1"
+                                data-question="serum_aliquot_size" 
+                                oninput={handleFieldInput}
+                                value={serumAliquotSizeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Serum Temperature Options *</label>
+                            <select
+                                class="select-input"
+                                data-question="serum_temperature"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                                <option value="Frozen (Dry Ice)">Frozen (Dry Ice)</option>
+                                <option value="LN2">LN2</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Temperature of Shipping</label>
+                            <select
+                                class="select-input"
+                                data-question="serum_shipping_temp"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Bulk Plasma Card -->
+            <template if:true={showBulkPlasmaCardLeukopak}>
+                <div class="card">
+                    <h3 class="card-title">Bulk Plasma</h3>
+                    
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">Bulk Plasma Volume (mL) *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="bulkPlasma_volume" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="50">50 mL</option>
+                                <option value="100">100 mL</option>
+                                <option value="150">150 mL</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Bulk Plasma Temperature Options *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="bulkPlasma_temperature" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </template>
+
+        <!-- ========== Page 2: Prospective Biospecimens ========== -->
+        <template if:true={isPage2Prospective}>
+            <div class="page-header">
+                <h2 class="page-title">Biospecimen Types</h2>
+                <p class="page-subtitle">Select specimen types and provide details</p>
+            </div>
+
+            <!-- Copy Configuration Feature -->
+            <template if:true={showCopyConfiguration}>
+                <div class="copy-config-container">
+                    <h3 class="copy-config-title">Copy Biospecimen Configuration</h3>
+                    <p class="copy-config-subtitle">
+                        Save time by copying biospecimen types and configurations from a previous cohort with the same workflow type (Prospective).
+                    </p>
+                    
+                    <div class="copy-config-controls">
+                        <div class="copy-config-field">
+                            <label class="copy-config-label">Copy from Cohort</label>
+                            <select 
+                                class="copy-config-select" 
+                                onchange={handleCohortSelectionForCopy}>
+                                <option value="">Select cohort...</option>
+                                <template for:each={availableCohortsForCopy} for:item="cohort">
+                                    <option key={cohort.value} value={cohort.value}>{cohort.label}</option>
+                                </template>
+                            </select>
+                        </div>
+                        
+                        <button 
+                            class="copy-config-button"
+                            disabled={isCopyButtonDisabled}
+                            onclick={handleCopyConfiguration}>
+                            Copy Configuration
+                        </button>
+                        
+                        <p class="copy-config-help">
+                            This will copy all selected biospecimen types and their detailed configurations from the selected cohort.
+                        </p>
+                    </div>
+                </div>
+            </template>
+
+            <div class="card">
+                <h3 class="card-title">Biospecimen Type(s) *</h3>
+
+                <!-- Error message if no biospecimen selected -->
+                <template if:true={biospecimenSelectionError}>
+                    <div class="error-message slds-m-bottom_small" style="color: #c23934; font-size: 0.875rem;">
+                        {biospecimenSelectionError}
+                    </div>
+                </template>
+
+                <div class="biospecimen-section">
+                    <h4 class="section-heading">Whole Blood Products</h4>
+                    <div class="checkbox-grid checkbox-grid-4col">
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_wholeBlood" checked={prospBioWholeBloodChecked} onchange={handleCheckboxChange} />
+                            <span>Whole Blood</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_rna" checked={prospBioRnaChecked} onchange={handleCheckboxChange} />
+                            <span>RNA</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_dna" checked={prospBioDnaChecked} onchange={handleCheckboxChange} />
+                            <span>DNA</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="biospecimen-section">
+                    <h4 class="section-heading">Processed Blood Products</h4>
+                    <div class="checkbox-grid checkbox-grid-4col">
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_tCell" checked={prospBioTCellChecked} onchange={handleCheckboxChange} />
+                            <span>T Cell</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_bCell" checked={prospBioBCellChecked} onchange={handleCheckboxChange} />
+                            <span>B Cell</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_nkCell" checked={prospBioNkCellChecked} onchange={handleCheckboxChange} />
+                            <span>NK Cell</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_pbmc" checked={prospBioPbmcChecked} onchange={handleCheckboxChange} />
+                            <span>PBMC</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_rbc" checked={prospBioRbcChecked} onchange={handleCheckboxChange} />
+                            <span>RBC</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_plasma" checked={prospBioPlasmaChecked} onchange={handleCheckboxChange} />
+                            <span>Plasma</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_serum" checked={prospBioSerumChecked} onchange={handleCheckboxChange} />
+                            <span>Serum</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_bulkPlasma" checked={prospBioBulkPlasmaChecked} onchange={handleCheckboxChange} />
+                            <span>Bulk Plasma</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_buffyCoat" checked={prospBioBuffyCoatChecked} onchange={handleCheckboxChange} />
+                            <span>Buffy Coat</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="biospecimen-section">
+                    <h4 class="section-heading">Other Biospecimens</h4>
+                    <div class="checkbox-grid checkbox-grid-4col">
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_nasalSwabs" checked={prospBioNasalSwabsChecked} onchange={handleCheckboxChange} />
+                            <span>Nasal Swabs</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_buccalSwabs" checked={prospBioBuccalSwabsChecked} onchange={handleCheckboxChange} />
+                            <span>Buccal Swabs</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_saliva" checked={prospBioSalivaChecked} onchange={handleCheckboxChange} />
+                            <span>Saliva</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_semen" checked={prospBioSemenChecked} onchange={handleCheckboxChange} />
+                            <span>Semen</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_stool" checked={prospBioStoolChecked} onchange={handleCheckboxChange} />
+                            <span>Stool</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_urine" checked={prospBioUrineChecked} onchange={handleCheckboxChange} />
+                            <span>Urine</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_synovialFluid" checked={prospBioSynovialFluidChecked} onchange={handleCheckboxChange} />
+                            <span>Synovial Fluid</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_skinPunchBiopsy" checked={prospBioSkinPunchBiopsyChecked} onchange={handleCheckboxChange} />
+                            <span>Skin Punch Biopsy</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_skinTapeStrips" checked={prospBioSkinTapeStripsChecked} onchange={handleCheckboxChange} />
+                            <span>Skin Tape Strips</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_sputum" checked={prospBioSputumChecked} onchange={handleCheckboxChange} />
+                            <span>Sputum</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_fingernails" checked={prospBioFingernailsChecked} onchange={handleCheckboxChange} />
+                            <span>Fingernails</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_hair" checked={prospBioHairChecked} onchange={handleCheckboxChange} />
+                            <span>Hair</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-question="prosp_bio_other" checked={prospBioOtherChecked} onchange={handleCheckboxChange} />
+                            <span>Other</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conditional Whole Blood Card -->
+            <template if:true={showWholeBloodCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Whole Blood</h3>
+                    
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">Whole Blood Collection Materials *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="wholeBlood_collection_materials" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="ACD">ACD</option>
+                                <option value="CPT Sodium Citrate">CPT Sodium Citrate</option>
+                                <option value="CPT Sodium Heparin">CPT Sodium Heparin</option>
+                                <option value="EDTA">EDTA</option>
+                                <option value="Lithium Heparin">Lithium Heparin</option>
+                                <option value="Sodium Citrate">Sodium Citrate</option>
+                                <option value="Sodium Heparin">Sodium Heparin</option>
+                                <option value="SST">SST</option>
+                                <option value="Custom Blood Materials">Custom Blood Materials</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Whole Blood Volume (mL) *</label>
+                            <input 
+                                type="number" 
+                                class="text-input" 
+                                min="1"
+                                data-question="wholeBlood_volume" 
+                                oninput={handleFieldInput}
+                                value={wholeBloodVolumeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Whole Blood Temperature Options *</label>
+                            <select
+                                class="select-input"
+                                data-question="wholeBlood_temperature"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                                <option value="Frozen (Dry Ice)">Frozen (Dry Ice)</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom Blood Materials Field -->
+                        <template if:true={showWholeBloodCustomMaterials}>
+                            <div class="field-group">
+                                <label class="field-label">Custom Blood Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom material"
+                                    data-question="wholeBlood_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={wholeBloodCustomMaterialsValue} />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional RNA Card -->
+            <template if:true={showRNACardProspective}>
+                <div class="card">
+                    <h3 class="card-title">RNA</h3>
+                    
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">RNA Collection Materials *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="rna_collection_materials" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="PAXgene RNA">PAXgene RNA</option>
+                                <option value="Custom RNA Materials">Custom RNA Materials</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">RNA Blood Volume (mL) *</label>
+                            <input 
+                                type="number" 
+                                class="text-input" 
+                                min="1"
+                                data-question="rna_volume" 
+                                oninput={handleFieldInput}
+                                value={rnaVolumeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">RNA Temperature Options *</label>
+                            <select
+                                class="select-input"
+                                data-question="rna_temperature"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                                <option value="Frozen (Dry Ice)">Frozen (Dry Ice)</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom RNA Materials Field -->
+                        <template if:true={showRNACustomMaterials}>
+                            <div class="field-group">
+                                <label class="field-label">Custom RNA Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom material"
+                                    data-question="rna_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={rnaCustomMaterialsValue} />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional DNA Card -->
+            <template if:true={showDNACardProspective}>
+                <div class="card">
+                    <h3 class="card-title">DNA</h3>
+                    
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">DNA Collection Materials *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="dna_collection_materials" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="PAXgene DNA">PAXgene DNA</option>
+                                <option value="Custom DNA Materials">Custom DNA Materials</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">DNA Blood Volume (mL) *</label>
+                            <input 
+                                type="number" 
+                                class="text-input" 
+                                min="1"
+                                data-question="dna_volume" 
+                                oninput={handleFieldInput}
+                                value={dnaVolumeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">DNA Temperature Options *</label>
+                            <select
+                                class="select-input"
+                                data-question="dna_temperature"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                                <option value="Frozen (Dry Ice)">Frozen (Dry Ice)</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom DNA Materials Field -->
+                        <template if:true={showDNACustomMaterials}>
+                            <div class="field-group">
+                                <label class="field-label">Custom DNA Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom material"
+                                    data-question="dna_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={dnaCustomMaterialsValue} />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional T Cell Card -->
+            <template if:true={showTCellCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">T Cells</h3>
+                    
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">T Cell Collection Materials *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="tCell_collection_materials" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="ACD">ACD</option>
+                                <option value="EDTA">EDTA</option>
+                                <option value="Lithium Heparin">Lithium Heparin</option>
+                                <option value="Sodium Heparin">Sodium Heparin</option>
+                                <option value="Custom T Cell Material">Custom T Cell Material</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Whole Blood Volume for T Cell Isolation (mL) *</label>
+                            <input 
+                                type="number" 
+                                class="text-input" 
+                                min="1"
+                                data-question="tCell_volume" 
+                                oninput={handleFieldInput}
+                                value={tCellVolumeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">T Cell Aliquot Size *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="tCell_aliquot_size" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="5M Cells">5M Cells</option>
+                                <option value="Custom T Cell Aliquot Size">Custom T Cell Aliquot Size</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom T Cell Aliquot Size Field -->
+                        <template if:true={showTCellCustomAliquot}>
+                            <div class="field-group">
+                                <label class="field-label">Custom T Cell Aliquot Size *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom aliquot size"
+                                    data-question="tCell_custom_aliquot_size"
+                                    oninput={handleFieldInput}
+                                    value={tCellCustomAliquotValue} />
+                            </div>
+                        </template>
+
+                        <div class="field-group">
+                            <label class="field-label">T Cell Selection Method *</label>
+                            <select
+                                class="select-input"
+                                data-question="tCell_selection_method"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Positive">Positive</option>
+                                <option value="Negative">Negative</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom T Cell Materials Field -->
+                        <template if:true={showTCellCustomMaterials}>
+                            <div class="field-group">
+                                <label class="field-label">Custom T Cell Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom material"
+                                    data-question="tCell_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={tCellCustomMaterialsValue} />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional B Cell Card -->
+            <template if:true={showBCellCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">B Cells</h3>
+                    
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">B Cell Collection Materials *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="bCell_collection_materials" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="ACD">ACD</option>
+                                <option value="EDTA">EDTA</option>
+                                <option value="Lithium Heparin">Lithium Heparin</option>
+                                <option value="Sodium Heparin">Sodium Heparin</option>
+                                <option value="Custom B Cell Material">Custom B Cell Material</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Whole Blood Volume for B Cell Isolation (mL) *</label>
+                            <input 
+                                type="number" 
+                                class="text-input" 
+                                min="1"
+                                data-question="bCell_volume" 
+                                oninput={handleFieldInput}
+                                value={bCellVolumeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">B Cell Aliquot Size *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="bCell_aliquot_size" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="5M Cells (standard)">5M Cells (standard)</option>
+                                <option value="Custom B Cell Aliquot Size">Custom B Cell Aliquot Size</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom B Cell Aliquot Size Field -->
+                        <template if:true={showBCellCustomAliquot}>
+                            <div class="field-group">
+                                <label class="field-label">Custom B Cell Aliquot Size *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom aliquot size"
+                                    data-question="bCell_custom_aliquot_size"
+                                    oninput={handleFieldInput}
+                                    value={bCellCustomAliquotValue} />
+                            </div>
+                        </template>
+
+                        <div class="field-group">
+                            <label class="field-label">B Cell Selection Method *</label>
+                            <select
+                                class="select-input"
+                                data-question="bCell_selection_method"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Positive">Positive</option>
+                                <option value="Negative">Negative</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom B Cell Materials Field -->
+                        <template if:true={showBCellCustomMaterials}>
+                            <div class="field-group">
+                                <label class="field-label">Custom B Cell Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom material"
+                                    data-question="bCell_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={bCellCustomMaterialsValue} />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional NK Cell Card -->
+            <template if:true={showNKCellCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">NK Cells</h3>
+                    
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">NK Cell Collection Materials *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="nkCell_collection_materials" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="ACD">ACD</option>
+                                <option value="EDTA">EDTA</option>
+                                <option value="Lithium Heparin">Lithium Heparin</option>
+                                <option value="Sodium Heparin">Sodium Heparin</option>
+                                <option value="Custom NK Cell Material">Custom NK Cell Material</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Whole Blood Volume for NK Cell Isolation (mL) *</label>
+                            <input 
+                                type="number" 
+                                class="text-input" 
+                                min="1"
+                                data-question="nkCell_volume" 
+                                oninput={handleFieldInput}
+                                value={nkCellVolumeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">NK Cell Aliquot Size *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="nkCell_aliquot_size" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="5M Cells (standard)">5M Cells (Standard)</option>
+                                <option value="Custom NK Cell Aliquot Size">Custom NK Cell Aliquot Size</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom NK Cell Aliquot Size Field -->
+                        <template if:true={showNKCellCustomAliquot}>
+                            <div class="field-group">
+                                <label class="field-label">Custom NK Cell Aliquot Size *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom aliquot size"
+                                    data-question="nkCell_custom_aliquot_size"
+                                    oninput={handleFieldInput}
+                                    value={nkCellCustomAliquotValue} />
+                            </div>
+                        </template>
+
+                        <!-- Conditional Custom NK Cell Materials Field -->
+                        <template if:true={showNKCellCustomMaterials}>
+                            <div class="field-group">
+                                <label class="field-label">Custom NK Cell Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom material"
+                                    data-question="nkCell_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={nkCellCustomMaterialsValue} />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional PBMC Card -->
+            <template if:true={showPBMCCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">PBMC</h3>
+
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">PBMC Collection Materials *</label>
+                            <select
+                                class="select-input"
+                                data-question="pbmc_collection_materials"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="ACD">ACD</option>
+                                <option value="EDTA">EDTA</option>
+                                <option value="CPT Sodium Citrate">CPT Sodium Citrate</option>
+                                <option value="CPT Sodium Heparin">CPT Sodium Heparin</option>
+                                <option value="Lithium Heparin">Lithium Heparin</option>
+                                <option value="Sodium Heparin">Sodium Heparin</option>
+                                <option value="Custom PBMC Material">Custom PBMC Material</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom PBMC Material Field -->
+                        <template if:true={showPBMCCustomMaterial}>
+                            <div class="field-group">
+                                <label class="field-label">Custom PBMC Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom PBMC materials"
+                                    data-question="pbmc_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={pbmcCustomMaterialsValue} />
+                            </div>
+                        </template>
+
+                        <div class="field-group">
+                            <label class="field-label">PBMC Blood Volume (mL) *</label>
+                            <input 
+                                type="number" 
+                                class="text-input" 
+                                min="1"
+                                data-question="pbmc_volume" 
+                                oninput={handleFieldInput}
+                                value={pbmcVolumeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">PBMC Aliquot Size *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="pbmc_aliquot_size" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="5M_Cells">5M Cells</option>
+                                <option value="10M_Cells">10M Cells</option>
+                                <option value="Custom PBMC Aliquot">Custom PBMC Aliquot</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom PBMC Aliquot Size Field -->
+                        <template if:true={showPBMCCustomAliquot}>
+                            <div class="field-group">
+                                <label class="field-label">Custom PBMC Aliquot Size *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom aliquot size"
+                                    data-question="pbmc_custom_aliquot_size"
+                                    oninput={handleFieldInput}
+                                    value={pbmcCustomAliquotValue} />
+                            </div>
+                        </template>
+
+                        <div class="field-group">
+                            <label class="field-label">PBMC Shipping Temperature *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="pbmc_shipping_temperature" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Frozen (Dry Ice)">Frozen (Dry Ice)</option>
+                                <option value="LN2">LN2</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">WB Shipment for PBMC Temp. Options</label>
+                            <select 
+                                class="select-input" 
+                                data-question="pbmc_wb_shipment_temp" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional RBC Card (Prospective only) -->
+            <template if:true={showRBCCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">RBC (Red Blood Cells)</h3>
+                    
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">RBC Collection Materials *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="rbc_collection_materials" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="EDTA">EDTA</option>
+                                <option value="Sodium Heparin">Sodium Heparin</option>
+                                <option value="Custom RBC Materials">Custom RBC Materials</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Blood Volume for RBC Isolation (mL) *</label>`   
+                            <input 
+                                type="number" 
+                                class="text-input" 
+                                min="0.1"
+                                step="0.1"
+                                placeholder="e.g., 15.5"
+                                data-question="rbc_blood_volume" 
+                                oninput={handleFieldInput}
+                                value={rbcBloodVolumeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">RBC Temperature Options *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="rbc_temperature_options" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Frozen (Dry Ice)">Frozen (Dry Ice)</option>
+                                <option value="LN2">LN2</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">RBC Aliquot Size (mL) *</label>
+                            <input 
+                                type="number" 
+                                class="text-input" 
+                                min="0.1"
+                                step="0.1"
+                                placeholder="e.g., 2.5"
+                                data-question="rbc_aliquot_size" 
+                                oninput={handleFieldInput}
+                                value={rbcAliquotSizeValue} />
+                        </div>
+                        
+                        <!-- Conditional Custom Materials Field -->
+                        <template if:true={showRbcCustomMaterials}>
+                            <div class="field-group">
+                                <label class="field-label">Custom RBC Material *</label>
+                                <input 
+                                    type="text" 
+                                    class="text-input" 
+                                    maxlength="255"
+                                    placeholder="Specify custom material"
+                                    data-question="rbc_custom_materials" 
+                                    oninput={handleFieldInput}
+                                    value={rbcCustomMaterialsValue} />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Plasma Card -->
+            <template if:true={showPlasmaCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Plasma</h3>
+
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">Plasma Collection Materials *</label>
+                            <select
+                                class="select-input"
+                                data-question="plasma_collection_materials"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="ACD">ACD</option>
+                                <option value="CPT Sodium Citrate">CPT Sodium Citrate</option>
+                                <option value="CPT Sodium Heparin">CPT Sodium Heparin</option>
+                                <option value="EDTA">EDTA</option>
+                                <option value="Lithium Heparin">Lithium Heparin</option>
+                                <option value="Sodium Citrate">Sodium Citrate</option>
+                                <option value="Sodium Heparin">Sodium Heparin</option>
+                                <option value="Custom Plasma Materials">Custom Plasma Materials</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom Plasma Materials Field -->
+                        <template if:true={showPlasmaCustomMaterials}>
+                            <div class="field-group">
+                                <label class="field-label">Custom Plasma Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom material"
+                                    data-question="plasma_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={plasmaCustomMaterialsValue} />
+                            </div>
+                        </template>
+
+                        <div class="field-group">
+                            <label class="field-label">Plasma Volume (mL) *</label>
+                            <input
+                                type="number"
+                                class="text-input"
+                                min="1"
+                                data-question="plasma_volume"
+                                oninput={handleFieldInput}
+                                value={plasmaVolumeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Plasma Aliquot Size (mL) *</label>
+                            <input 
+                                type="number" 
+                                class="text-input" 
+                                min="1"
+                                data-question="plasma_aliquot_size" 
+                                oninput={handleFieldInput}
+                                value={plasmaAliquotSizeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Plasma Temperature Options *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="plasma_temperature" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                                <option value="Frozen (Dry Ice)">Frozen (Dry Ice)</option>
+                                <option value="LN2">LN2</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Plasma Processing Location *</label>
+                            <select
+                                class="select-input"
+                                data-question="plasma_processing_location"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="In-home">At Collection Site</option>
+                                <option value="Laboratory">Laboratory</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Temperature of Shipping</label>
+                            <select
+                                class="select-input"
+                                data-question="plasma_shipping_temp"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Serum Card -->
+            <template if:true={showSerumCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Serum</h3>
+
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">Serum Collection Materials *</label>
+                            <select
+                                class="select-input"
+                                data-question="serum_collection_materials"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="ACD">ACD</option>
+                                <option value="CPT Sodium Citrate">CPT Sodium Citrate</option>
+                                <option value="CPT Sodium Heparin">CPT Sodium Heparin</option>
+                                <option value="EDTA">EDTA</option>
+                                <option value="Lithium Heparin">Lithium Heparin</option>
+                                <option value="Sodium Citrate">Sodium Citrate</option>
+                                <option value="Sodium Heparin">Sodium Heparin</option>
+                                <option value="SST">SST</option>
+                                <option value="Custom Serum Materials">Custom Serum Materials</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom Serum Materials Field -->
+                        <template if:true={showSerumCustomMaterials}>
+                            <div class="field-group">
+                                <label class="field-label">Custom Serum Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom material"
+                                    data-question="serum_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={serumCustomMaterialsValue} />
+                            </div>
+                        </template>
+
+                        <div class="field-group">
+                            <label class="field-label">Serum Volume (mL) *</label>
+                            <input
+                                type="number"
+                                class="text-input"
+                                min="1"
+                                data-question="serum_volume"
+                                oninput={handleFieldInput}
+                                value={serumVolumeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Serum Aliquot Size (mL) *</label>
+                            <input 
+                                type="number" 
+                                class="text-input" 
+                                min="1"
+                                data-question="serum_aliquot_size" 
+                                oninput={handleFieldInput}
+                                value={serumAliquotSizeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Serum Temperature Options *</label>
+                            <select
+                                class="select-input"
+                                data-question="serum_temperature"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                                <option value="Frozen (Dry Ice)">Frozen (Dry Ice)</option>
+                                <option value="LN2">LN2</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Serum Processing Location *</label>
+                            <select
+                                class="select-input"
+                                data-question="serum_processing_location"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="In-home">At Collection Site</option>
+                                <option value="laboratory">Laboratory</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Temperature of Shipping</label>
+                            <select
+                                class="select-input"
+                                data-question="serum_shipping_temp"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Bulk Plasma Card -->
+            <template if:true={showBulkPlasmaCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Bulk Plasma</h3>
+                    
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">Bulk Plasma Volume (mL) *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="bulkPlasma_volume" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="50">50 mL</option>
+                                <option value="100">100 mL</option>
+                                <option value="150">150 mL</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Bulk Plasma Temperature Options *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="bulkPlasma_temperature" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Buffy Coat Card -->
+            <template if:true={showBuffyCoatCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Buffy Coat</h3>
+
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">Buffy Coat Collection Materials *</label>
+                            <select
+                                class="select-input"
+                                data-question="buffyCoat_collection_materials"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="ACD">ACD</option>
+                                <option value="EDTA">EDTA</option>
+                                <option value="Lithium Heparin">Lithium Heparin</option>
+                                <option value="Sodium Citrate">Sodium Citrate</option>
+                                <option value="Sodium Heparin">Sodium Heparin</option>
+                                <option value="Custom Buffy Coat Materials">Custom Buffy Coat Materials</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom Buffy Coat Materials Field -->
+                        <template if:true={showBuffyCoatCustomMaterials}>
+                            <div class="field-group">
+                                <label class="field-label">Custom Buffy Coat Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom material"
+                                    data-question="buffyCoat_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={buffyCoatCustomMaterialsValue} />
+                            </div>
+                        </template>
+
+                        <div class="field-group">
+                            <label class="field-label">Buffy Coat Temperature Options *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="buffyCoat_temperature" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                                <option value="Frozen (Dry Ice)">Frozen (Dry Ice)</option>
+                                <option value="LN2">LN2</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Blood Volume for Buffy Coat (mL) *</label>
+                            <input 
+                                type="number" 
+                                class="text-input" 
+                                min="1"
+                                placeholder="e.g., 10"
+                                data-question="buffyCoat_volume" 
+                                oninput={handleFieldInput}
+                                value={buffyCoatVolumeValue} />
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Nasal Swabs Card -->
+            <template if:true={showNasalSwabsCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Nasal Swabs</h3>
+
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="nasalSwabs_collection_materials"
+                                label="Nasal Swabs Collection Materials"
+                                type="text"
+                                placeholder="Specify collection materials"
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="nasalSwabs_collection_materials">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="nasalSwabs_temperature"
+                                label="Nasal Swabs Temperature Options"
+                                type="dropdown"
+                                placeholder="Select..."
+                                options={simpleTemperatureOptions}
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="nasalSwabs_temperature">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="nasalSwabs_number"
+                                label="Nasal Swabs Number of Swabs"
+                                type="number"
+                                min="1"
+                                placeholder="e.g., 2"
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="nasalSwabs_number">
+                            </c-dynamic-input>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Buccal Swabs Card -->
+            <template if:true={showBuccalSwabsCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Buccal Swabs</h3>
+
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="buccalSwabs_collection_materials"
+                                label="Buccal Swabs Collection Materials"
+                                type="dropdown"
+                                placeholder="Select..."
+                                options={buccalSwabsCollectionMaterialsOptions}
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="buccalSwabs_collection_materials">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="buccalSwabs_temperature"
+                                label="Buccal Temperature Options"
+                                type="dropdown"
+                                placeholder="Select..."
+                                options={simpleTemperatureOptions}
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="buccalSwabs_temperature">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="buccalSwabs_number"
+                                label="Buccal Aliquot Number of Swabs"
+                                type="number"
+                                min="1"
+                                placeholder="e.g., 2"
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="buccalSwabs_number">
+                            </c-dynamic-input>
+                        </div>
+
+                        <!-- Conditional Custom Buccal Materials Field -->
+                        <template if:true={showBuccalCustomMaterials}>
+                            <div class="field-group">
+                                <c-dynamic-input
+                                    name="buccal_custom_materials"
+                                    label="Custom Buccal Materials"
+                                    type="text"
+                                    placeholder="Specify custom material"
+                                    required="true"
+                                    show-label="true"
+                                    state={cohortScopedState}
+                                    onvaluechange2={handleDynamicInputChange}
+                                    data-question="buccal_custom_materials">
+                                </c-dynamic-input>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Saliva Card -->
+            <template if:true={showSalivaCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Saliva</h3>
+                    
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">Saliva Collection Materials *</label>
+                            <input 
+                                type="text" 
+                                class="text-input" 
+                                placeholder="Specify collection materials"
+                                data-question="saliva_collection_materials" 
+                                oninput={handleFieldInput}
+                                value={salivaCollectionMaterialsValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Saliva Volume (mL) *</label>
+                            <input 
+                                type="number" 
+                                class="text-input" 
+                                min="1"
+                                placeholder="e.g., 5"
+                                data-question="saliva_volume" 
+                                oninput={handleFieldInput}
+                                value={salivaVolumeValue} />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Saliva Temperature Options *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="saliva_temperature" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                                <option value="Frozen (Dry Ice)">Frozen (Dry Ice)</option>
+                                <option value="LN2">LN2</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Semen Card -->
+            <template if:true={showSemenCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Semen</h3>
+                    
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">Semen Collection Materials *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="semen_collection_materials" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Urine Collection Cup">Urine Collection Cup</option>
+                                <option value="Custom Semen Materials">Custom Semen Materials</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Semen Temperature Options *</label>
+                            <select
+                                class="select-input"
+                                data-question="semen_temperature"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                                <option value="Frozen (Dry Ice)">Frozen (Dry Ice)</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom Semen Materials Field -->
+                        <template if:true={showSemenCustomMaterials}>
+                            <div class="field-group">
+                                <label class="field-label">Custom Semen Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom material"
+                                    data-question="semen_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={semenCustomMaterialsValue} />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Stool Card -->
+            <template if:true={showStoolCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Stool</h3>
+                    
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">Stool Collection Materials *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="stool_collection_materials" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Fisherbrand Commode Specimen Collection System">Fisherbrand Commode Specimen Collection System</option>
+                                <option value="Custom Stool Collection Mats">Custom Stool Materials</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Stool Temperature Options *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="stool_temperature" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                                <option value="Frozen (Dry Ice)">Frozen (Dry Ice)</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Stool Requirements</label>
+                            <textarea
+                                class="textarea"
+                                rows="3"
+                                placeholder="Additional stool collection requirements"
+                                data-question="stool_requirements"
+                                oninput={handleFieldInput}></textarea>
+                        </div>
+
+                        <!-- Conditional Custom Stool Materials Field -->
+                        <template if:true={showStoolCustomMaterials}>
+                            <div class="field-group">
+                                <label class="field-label">Custom Stool Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom material"
+                                    data-question="stool_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={stoolCustomMaterialsValue} />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Urine Card -->
+            <template if:true={showUrineCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Urine</h3>
+                    
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <label class="field-label">Urine Collection Materials *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="urine_collection_materials" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Vacuette Collection Device">Vacuette Collection Device</option>
+                                <option value="Custom Urine Collection Mats">Custom Urine Materials</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Urine Temperature Options *</label>
+                            <select 
+                                class="select-input" 
+                                data-question="urine_temperature" 
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Ambient">Ambient</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                                <option value="Frozen (Dry Ice)">Frozen (Dry Ice)</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Urine Aliquot Size</label>
+                            <select
+                                class="select-input"
+                                data-question="urine_aliquot_size"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="10 mL">10 mL</option>
+                                <option value="Custom Urine Aliquot">Custom Urine Aliquot</option>
+                            </select>
+                        </div>
+
+                        <!-- Conditional Custom Urine Aliquot Size Field -->
+                        <template if:true={showUrineCustomAliquot}>
+                            <div class="field-group">
+                                <label class="field-label">Custom Urine Aliquot Size *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom aliquot size"
+                                    data-question="urine_custom_aliquot_size"
+                                    oninput={handleFieldInput}
+                                    value={urineCustomAliquotValue} />
+                            </div>
+                        </template>
+
+                        <div class="field-group">
+                            <label class="field-label">First Void?</label>
+                            <select 
+                                class="select-input" 
+                                data-question="urine_first_void"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Urine Processing required?</label>
+                            <select 
+                                class="select-input" 
+                                data-question="urine_processing_required"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Separate Supernatant from Pellet?</label>
+                            <select 
+                                class="select-input" 
+                                data-question="urine_separate_supernatant"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Discard Pellet?</label>
+                            <select 
+                                class="select-input" 
+                                data-question="urine_discard_pellet"
+                                onchange={handleFieldInput}>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Urine Collection Details</label>
+                            <textarea
+                                class="textarea"
+                                rows="3"
+                                placeholder="Additional details about urine collection"
+                                data-question="urine_collection_details"
+                                oninput={handleFieldInput}></textarea>
+                        </div>
+
+                        <!-- Conditional Custom Urine Materials Field -->
+                        <template if:true={showUrineCustomMaterials}>
+                            <div class="field-group">
+                                <label class="field-label">Custom Urine Materials *</label>
+                                <input
+                                    type="text"
+                                    class="text-input"
+                                    maxlength="255"
+                                    placeholder="Specify custom material"
+                                    data-question="urine_custom_materials"
+                                    oninput={handleFieldInput}
+                                    value={urineCustomMaterialsValue} />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Synovial Fluid Card -->
+            <template if:true={showSynovialFluidCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Synovial Fluid</h3>
+
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="synovialFluid_details"
+                                label="Synovial Fluid Details"
+                                type="textarea"
+                                rows="3"
+                                placeholder="Additional details about collection"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="synovialFluid_details">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="synovialFluid_volume"
+                                label="Synovial Fluid Volume (mL)"
+                                type="number"
+                                min="1"
+                                placeholder="e.g., 5"
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="synovialFluid_volume">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="synovialFluid_temperature"
+                                label="Synovial Fluid Temperature Options"
+                                type="dropdown"
+                                placeholder="Select..."
+                                options={simpleTemperatureOptions}
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="synovialFluid_temperature">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="synovialFluid_aliquot_size"
+                                label="Synovial Fluid Aliquot Size"
+                                type="text"
+                                placeholder="e.g., 1 mL"
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="synovialFluid_aliquot_size">
+                            </c-dynamic-input>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Skin Punch Biopsy Card -->
+            <template if:true={showSkinPunchBiopsyCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Skin Punch Biopsy</h3>
+
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="skinPunchBiopsy_number"
+                                label="Number of Skin Punch Biopsy Samples"
+                                type="number"
+                                min="1"
+                                placeholder="e.g., 3"
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="skinPunchBiopsy_number">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="skinPunchBiopsy_size"
+                                label="Skin Punch Biopsy Size (Diameter)"
+                                type="dropdown"
+                                placeholder="Select..."
+                                options={skinPunchBiopsySizeOptions}
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="skinPunchBiopsy_size">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="skinPunchBiopsy_temperature"
+                                label="Skin Punch Biopsy Temperature Options"
+                                type="dropdown"
+                                placeholder="Select..."
+                                options={simpleTemperatureOptions}
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="skinPunchBiopsy_temperature">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="skinPunchBiopsy_details"
+                                label="Skin Punch Biopsy Details"
+                                type="textarea"
+                                rows="3"
+                                placeholder="Additional details"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="skinPunchBiopsy_details">
+                            </c-dynamic-input>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Skin Tape Strips Card -->
+            <template if:true={showSkinTapeStripsCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Skin Tape Strips</h3>
+
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="skinTapeStrips_collection_materials"
+                                label="Skin Tape Strips Collection Materials"
+                                type="text"
+                                placeholder="Specify collection materials"
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="skinTapeStrips_collection_materials">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="skinTapeStrips_number"
+                                label="Number of Strips"
+                                type="number"
+                                min="1"
+                                placeholder="e.g., 5"
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="skinTapeStrips_number">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="skinTapeStrips_temperature"
+                                label="Skin Tape Strips Temperature Options"
+                                type="dropdown"
+                                placeholder="Select..."
+                                options={simpleTemperatureOptions}
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="skinTapeStrips_temperature">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                name="skinTapeStrips_regions"
+                                label="Regions for Skin Taping"
+                                type="text"
+                                placeholder="e.g., forearm, back"
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="skinTapeStrips_regions">
+                            </c-dynamic-input>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Sputum Card -->
+            <template if:true={showSputumCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Sputum</h3>
+
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <c-dynamic-input
+                                type="dropdown"
+                                name="sputum_collection_materials"
+                                label="Sputum Collection Materials"
+                                placeholder="Select..."
+                                options={sputumCollectionMaterialsOptions}
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="sputum_collection_materials">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                type="dropdown"
+                                name="sputum_temperature"
+                                label="Sputum Temperature Options"
+                                placeholder="Select..."
+                                options={simpleTemperatureOptions}
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="sputum_temperature">
+                            </c-dynamic-input>
+                        </div>
+
+                        <!-- Conditional Custom Sputum Materials Field -->
+                        <template if:true={showSputumCustomMaterials}>
+                            <div class="field-group">
+                                <c-dynamic-input
+                                    type="text"
+                                    name="sputum_custom_materials"
+                                    label="Custom Sputum Materials"
+                                    placeholder="Specify custom material"
+                                    maxlength="255"
+                                    required="true"
+                                    show-label="true"
+                                    state={cohortScopedState}
+                                    onvaluechange2={handleDynamicInputChange}
+                                    data-question="sputum_custom_materials">
+                                </c-dynamic-input>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Fingernails Card -->
+            <template if:true={showFingernailsCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Fingernails</h3>
+
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <c-dynamic-input
+                                type="text"
+                                name="fingernails_collection_materials"
+                                label="Nail Collection Materials"
+                                placeholder="Specify collection materials"
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="fingernails_collection_materials">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                type="dropdown"
+                                name="fingernails_temperature"
+                                label="Nail Temperature Options"
+                                placeholder="Select..."
+                                options={simpleTemperatureOptions}
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="fingernails_temperature">
+                            </c-dynamic-input>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Hair Card -->
+            <template if:true={showHairCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Hair</h3>
+
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <c-dynamic-input
+                                type="text"
+                                name="hair_collection_materials"
+                                label="Hair Collection Materials"
+                                placeholder="Specify collection materials"
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="hair_collection_materials">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                type="dropdown"
+                                name="hair_temperature"
+                                label="Hair Temperature Options"
+                                placeholder="Select..."
+                                options={simpleTemperatureOptions}
+                                required="true"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="hair_temperature">
+                            </c-dynamic-input>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Conditional Other (Custom Biospecimen) Card -->
+            <template if:true={showOtherCardProspective}>
+                <div class="card">
+                    <h3 class="card-title">Other (Custom Biospecimen)</h3>
+
+                    <div class="fields-grid-2col">
+                        <div class="field-group">
+                            <c-dynamic-input
+                                type="text"
+                                name="other_sample_volume"
+                                label="Other Sample Volume"
+                                placeholder="e.g., 10 mL"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="other_sample_volume">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                type="textarea"
+                                name="other_collection_materials"
+                                label="Other Collection Materials or Processing Requirements"
+                                placeholder="Specify collection materials and processing requirements"
+                                rows="3"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="other_collection_materials">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                type="dropdown"
+                                name="other_temperature"
+                                label="Other Biospecimen Collection Temperature"
+                                placeholder="Select..."
+                                options={simpleTemperatureOptions}
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="other_temperature">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                type="text"
+                                name="other_materials"
+                                label="Other Biospecimen Materials"
+                                placeholder="Specify materials"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="other_materials">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                type="textarea"
+                                name="other_shipping_requirements"
+                                label="Other Shipping Requirements"
+                                placeholder="Special shipping requirements"
+                                rows="3"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="other_shipping_requirements">
+                            </c-dynamic-input>
+                        </div>
+
+                        <div class="field-group">
+                            <c-dynamic-input
+                                type="text"
+                                name="other_collection_type"
+                                label="Collection Type"
+                                placeholder="e.g., Venipuncture, Biopsy"
+                                show-label="true"
+                                state={cohortScopedState}
+                                onvaluechange2={handleDynamicInputChange}
+                                data-question="other_collection_type">
+                            </c-dynamic-input>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </template>
+
+        <!-- ========== Page 3: Testing & Screening ========== -->
+        <template if:true={isPage3}>
+            <div class="page-header">
+                <h2 class="page-title">Testing & Screening</h2>
+                <p class="page-subtitle">Testing requirements for this cohort</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Viral Screening</h3>
+                <div class="radio-group-horizontal">
+                    <label class="radio-card-option">
+                        <input 
+                            type="radio" 
+                            name={viralScreeningName}
+                            value="no_testing" 
+                            data-question="viral_screening" 
+                            onchange={handleFieldInput}
+                            checked />
+                        <div class="radio-card-content">
+                            <div class="radio-card-title">No testing</div>
+                            <div class="radio-card-subtitle">No viral screening required</div>
+                        </div>
+                    </label>
+                    <label class="radio-card-option">
+                        <input 
+                            type="radio" 
+                            name={viralScreeningName}
+                            value="custom_testing" 
+                            data-question="viral_screening" 
+                            onchange={handleFieldInput} />
+                        <div class="radio-card-content">
+                            <div class="radio-card-title">Custom Testing</div>
+                            <div class="radio-card-subtitle">Specify custom screening</div>
+                        </div>
+                    </label>
+                </div>
+                
+                <!-- Conditional Custom Viral Screening Field -->
+                <template if:true={isCustomTestingSelected}>
+                    <div class="custom-screening-field">
+                        <label class="field-label">Custom Viral Screening</label>
+                        <textarea 
+                            class="textarea-field"
+                            data-question="custom_viral_screening" 
+                            oninput={handleFieldInput}
+                            placeholder="Specify viral screening requirements (e.g., HIV, HBV, HCV)"
+                            rows="4">{customViralScreeningValue}</textarea>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <!-- ========== Shipping Assignment Page ========== -->
+        <!-- Note: Timeline is now a separate shared step in the wizard, not per-cohort -->
+        <template if:true={isShippingAssignmentPage}>
+            <div class="page-header">
+                <h2 class="page-title">Shipping Assignment</h2>
+                <p class="page-subtitle">
+                    Assign biospecimen types to shipping addresses
+                </p>
+            </div>
+
+            <template if:true={isSingleShippingLocation}>
+                <div class="card shipping-card">
+                    <h3 class="card-title">Single Shipping Address</h3>
+                    <p class="helper-text">
+                        All biospecimen types will be shipped to your designated address.
+                    </p>
+                    
+                    <div class="biospecimen-summary">
+                        <h4 class="summary-title">Selected Biospecimens:</h4>
+                        <div class="biospecimen-tags">
+                            <template for:each={selectedBiospecimenLabels} for:item="label">
+                                <span key={label} class="bio-tag">{label}</span>
+                            </template>
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">Comments/Volume Instructions</label>
+                        <textarea
+                            class="textarea"
+                            data-question="shipping_comments"
+                            placeholder="Specify volumes or instructions"
+                            oninput={handleFieldInput}></textarea>
+                    </div>
+                </div>
+            </template>
+
+            <template if:true={isMultipleShippingLocations}>
+                <div class="info-banner">
+                    <lightning-icon icon-name="utility:info" size="x-small" class="info-icon"></lightning-icon>
+                    <div class="info-content">
+                        <h4 class="info-title">Multiple Shipping Addresses</h4>
+                        <p class="info-text">
+                            Assign specific biospecimen types to different addresses
+                        </p>
+                    </div>
+                </div>
+
+                <template for:each={shippingAddresses} for:item="address">
+                    <div key={address.key} class="card address-assignment-card">
+                        <div class="address-header">
+                            <h3 class="address-title">{address.title}</h3>
+                            <div class="address-details">
+                                <p class="address-line">{address.company}</p>
+                                <p class="address-line">{address.fullName}</p>
+                                <p class="address-line">{address.fullAddress}</p>
+                            </div>
+                        </div>
+
+                        <div class="biospecimen-assignment">
+                            <h4 class="biospecimen-title">Biospecimen Types</h4>
+                            
+                            <div class="biospecimen-grid">
+                                <template for:each={address.availableBiospecimens} for:item="biospecimen">
+                                    <label key={biospecimen.key} class={biospecimen.containerClass}>
+                                        <input
+                                            type="checkbox"
+                                            checked={biospecimen.checked}
+                                            disabled={biospecimen.disabled}
+                                            data-address-index={address.index}
+                                            data-biospecimen={biospecimen.value}
+                                            onchange={handleBiospecimenAssignment}
+                                            class="biospecimen-checkbox"
+                                        />
+                                        <span class="biospecimen-label">{biospecimen.label}</span>
+                                    </label>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+        </template>
+    </div>
+</template>

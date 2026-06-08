@@ -1,0 +1,36 @@
+<template>
+    <template if:true={hasSteps}>
+        <div class="srf-progress-wrapper">
+            <nav class="srf-progress" role="navigation" aria-label="Progress">
+                <ol class="srf-progress__list">
+                    <template for:each={_steps} for:item="step">
+                        <li key={step.key} class="srf-step" role="listitem">
+                            <div class="srf-step__top">
+                                <!-- CIRCLE -->
+                                <div 
+                                    class={step.circleClass}
+                                    role="img"
+                                    aria-label={step.ariaLabel}
+                                >
+                                    <span class="srf-step__number" aria-hidden="true">
+                                        {step.displayValue}
+                                    </span>
+                                </div>
+
+                                <!-- CONNECTOR TO THE NEXT STEP -->
+                                <template if:true={step.hasConnector}>
+                                    <div class={step.connectorClass} aria-hidden="true"></div>
+                                </template>
+                            </div>
+
+                            <!-- LABEL -->
+                            <div class={step.labelClass}>
+                                {step.label}
+                            </div>
+                        </li>
+                    </template>
+                </ol>
+            </nav>
+        </div>
+    </template>
+</template>

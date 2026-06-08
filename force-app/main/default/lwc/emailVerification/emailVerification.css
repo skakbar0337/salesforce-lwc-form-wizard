@@ -1,0 +1,129 @@
+.email-verification-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    min-height: 400px;
+}
+
+.verification-card {
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.card-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #080707;
+    margin: 0 0 0.5rem 0;
+}
+
+.card-description {
+    font-size: 0.95rem;
+    color: #706e6b;
+    margin: 0;
+}
+
+.input-section {
+    margin-bottom: 1.5rem;
+}
+
+.auth-code-header {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #f3f3f3;
+    border-radius: 4px;
+    border-left: 4px solid #2e844a;
+}
+
+.success-message {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #2e844a;
+    margin: 0 0 0.5rem 0;
+}
+
+.help-text {
+    font-size: 0.875rem;
+    color: #706e6b;
+    margin: 0;
+}
+
+.button-group {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+    min-width: 120px;
+}
+
+.btn-primary {
+    background-color: #0070d2;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #005fb2;
+}
+
+.btn-primary:active {
+    background-color: #00396b;
+}
+
+.btn-secondary {
+    background-color: #706e6b;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5c5756;
+}
+
+.btn-tertiary {
+    background-color: white;
+    color: #0070d2;
+    border: 1px solid #0070d2;
+}
+
+.btn-tertiary:hover {
+    background-color: #f3f3f3;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .email-verification-container {
+        padding: 1rem;
+    }
+
+    .verification-card {
+        padding: 1.5rem;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

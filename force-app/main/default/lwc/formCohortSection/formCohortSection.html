@@ -1,0 +1,104 @@
+﻿<template>
+    <div class="cohort-section">
+        <!-- =========================================
+             SETUP VIEW: Number of Cohorts + Names
+        ========================================== -->
+        <template if:true={showSetupView}>
+            <!-- Header -->
+            <div class="setup-header">
+                <h2 class="setup-title">Study Cohorts</h2>
+                <p class="setup-subtitle">
+                    How many cohorts does your study include?
+                </p>
+                <div class="info-message">
+                    <lightning-icon 
+                        icon-name="utility:info" 
+                        size="x-small" 
+                        class="info-icon">
+                    </lightning-icon>
+                    <span class="info-text">Each cohort can have different donor criteria and biospecimen requirements</span>
+                </div>
+            </div>
+
+            <!-- Number of Cohorts Card -->
+            <div class="setup-card">
+                <h3 class="setup-card-title">Number of Cohorts</h3>
+                
+                <!-- Description -->
+                <div class="description">
+                    <p class="description-text">
+                        A cohort is a group of participants with similar characteristics. Examples:
+                    </p>
+                    <ul class="example-list">
+                        <li>Cohort 1: Healthy controls</li>
+                        <li>Cohort 2: Disease State 1</li>
+                        <li>Cohort 3: Disease State 2</li>
+                    </ul>
+                </div>
+
+                <!-- Radio Buttons for Number Selection -->
+                <c-dynamic-input
+                    name="numberOfCohorts"
+                    type="radio"
+                    radio-layout="horizontal"
+                    options={cohortOptions}
+                    onvaluechange={handleCohortNumberChange}>
+                </c-dynamic-input>
+
+                <!-- Custom Number Input -->
+                <div class="custom-input-section">
+                    <label class="custom-label">Or enter custom number</label>
+                    <input
+                        type="number"
+                        class="custom-input"
+                        min="1"
+                        max="10"
+                        value={customCohortNumber}
+                        oninput={handleCustomNumberInput}
+                        placeholder="2" />
+                    <p class="max-text">Maximum 10 cohorts</p>
+                </div>
+            </div>
+
+            <!-- Name Your Cohorts Section -->
+            <template if:true={showCohortNames}>
+                <div class="name-cohorts-section">
+                    <h3 class="name-cohorts-title">Name Your Cohorts: <abbr class="slds-required" title="required">*</abbr></h3>
+                    
+                    <!-- Validation Error Message -->
+                    <template if:true={validationError}>
+                        <div class="validation-error">
+                            <lightning-icon 
+                                icon-name="utility:error" 
+                                size="x-small" 
+                                variant="error"
+                                class="error-icon">
+                            </lightning-icon>
+                            <span class="error-text">{validationError}</span>
+                        </div>
+                    </template>
+                    
+                    <div class="cohort-inputs">
+                        <template for:each={cohortInputs} for:item="cohort">
+                            <div key={cohort.number} class="cohort-input-row">
+                                <span class="cohort-number">{cohort.number}</span>
+                                <input
+                                    type="text"
+                                    class="cohort-name-input"
+                                    placeholder={cohort.placeholder}
+                                    data-index={cohort.index}
+                                    value={cohort.value}
+                                    required
+                                    oninput={handleCohortNameInput} />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </template>
+
+        <!-- Note: Phase 2 (cohort iteration pages) has been moved to formCohortIterator component -->
+        <!-- Each cohort now appears as its own step in the main wizard -->
+    </div>
+</template>
+            <!-- Cohort header with name and progress -->

@@ -1,0 +1,579 @@
+﻿/* Form Cohort Iterator Styles */
+.cohort-iterator {
+    padding: 0;
+}
+
+.cohort-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.cohort-pill {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.5rem 1.25rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
+}
+
+.cohort-progress-text {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.page-header {
+    margin-bottom: 1.5rem;
+}
+
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 0.5rem 0;
+}
+
+.page-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+.card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 1rem 0;
+}
+
+.field-group {
+    margin-bottom: 1.25rem;
+}
+
+.field-group:last-child {
+    margin-bottom: 0;
+}
+
+.field-label {
+    display: block;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+/* Two-column grid layout for fields */
+.fields-grid-2col {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.fields-grid-2col .field-group {
+    margin-bottom: 0;
+}
+
+.fields-grid-2col .full-width {
+    grid-column: 1 / -1;
+}
+
+.textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    resize: vertical;
+    color: #1f2937;
+    background-color: #ffffff;
+}
+
+.textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.text-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: #1f2937;
+    background-color: #ffffff;
+}
+
+.text-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.select-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: #1f2937;
+    background-color: #ffffff;
+}
+
+.biospecimen-section {
+    margin-bottom: 1.5rem;
+}
+
+.biospecimen-section:last-child {
+    margin-bottom: 0;
+}
+
+.section-heading {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 0.75rem 0;
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.checkbox-grid-4col {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.checkbox-option:hover {
+    background-color: #f9fafb;
+}
+
+.checkbox-option input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.checkbox-option span {
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.checkbox-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.checkbox-label span {
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.card-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0 0 1rem 0;
+}
+
+.radio-group-horizontal {
+    display: flex;
+    gap: 1rem;
+}
+
+.radio-card-option {
+    flex: 1;
+    cursor: pointer;
+}
+
+.radio-card-option input[type="radio"] {
+    display: none;
+}
+
+.radio-card-content {
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.radio-card-option input[type="radio"]:checked + .radio-card-content {
+    border-color: #667eea;
+    background-color: #f0f4ff;
+}
+
+.radio-card-title {
+    font-weight: 500;
+    color: #1f2937;
+}
+
+.radio-card-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+}
+
+/* Custom Viral Screening Field */
+.custom-screening-field {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.textarea-field {
+    width: 100%;
+    min-height: 100px;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    resize: vertical;
+    font-family: inherit;
+    color: #1f2937;
+    background-color: #ffffff;
+}
+
+.textarea-field:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.timeline-card {
+    padding: 1.5rem;
+}
+
+.timeline-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.timeline-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.timeline-input {
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: #1f2937;
+    background-color: #ffffff;
+}
+
+.shipping-card {
+    padding: 1.5rem;
+}
+
+.helper-text {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+
+.biospecimen-summary {
+    margin-bottom: 1.5rem;
+}
+
+.summary-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0 0 0.5rem 0;
+}
+
+.biospecimen-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.bio-tag {
+    background-color: #e0e7ff;
+    color: #4f46e5;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.info-banner {
+    background-color: #eff6ff;
+    border-left: 4px solid #3b82f6;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 4px;
+    display: flex;
+    gap: 0.75rem;
+}
+
+.info-icon {
+    color: #3b82f6;
+    flex-shrink: 0;
+}
+
+.info-content {
+    flex: 1;
+}
+
+.info-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1e40af;
+    margin: 0 0 0.25rem 0;
+}
+
+.info-text {
+    font-size: 0.875rem;
+    color: #1e40af;
+    margin: 0;
+}
+
+.address-assignment-card {
+    margin-bottom: 1.5rem;
+}
+
+.address-header {
+    margin-bottom: 1.5rem;
+}
+
+.address-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 0.75rem 0;
+}
+
+.address-details {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.address-line {
+    margin: 0.25rem 0;
+}
+
+.biospecimen-assignment {
+    margin-top: 1rem;
+}
+
+.biospecimen-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0 0 0.5rem 0;
+}
+
+.biospecimen-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.biospecimen-checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.biospecimen-checkbox-container:hover {
+    background-color: #f9fafb;
+}
+
+.biospecimen-checkbox-container.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.biospecimen-checkbox {
+    width: 16px;
+    height: 16px;
+}
+
+.biospecimen-label {
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+/* Copy Configuration Styles */
+.copy-config-container {
+    background: #eff6ff;
+    border: 2px solid #3b82f6;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.copy-config-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1e40af;
+    margin: 0 0 0.5rem 0;
+}
+
+.copy-config-subtitle {
+    font-size: 0.875rem;
+    color: #1e40af;
+    margin: 0 0 1rem 0;
+    line-height: 1.5;
+}
+
+.copy-config-controls {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.copy-config-field {
+    flex: 1;
+    min-width: 250px;
+}
+
+.copy-config-label {
+    display: block;
+    font-weight: 600;
+    color: #1e40af;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.copy-config-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #3b82f6;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    background-color: white;
+    color: #1f2937;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.copy-config-select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.copy-config-button {
+    background: #3b82f6;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    white-space: nowrap;
+}
+
+.copy-config-button:hover:not(:disabled) {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+.copy-config-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.copy-config-button:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.copy-config-help {
+    flex-basis: 100%;
+    font-size: 0.8125rem;
+    color: #1e40af;
+    margin: 0.5rem 0 0 0;
+    font-style: italic;
+}
+
+/* ===== Required Field Validation Styles ===== */
+
+/* Required indicator asterisk */
+.required-indicator {
+    color: #e02b1d;
+    margin-left: 2px;
+}
+
+/* Error State for Input Fields */
+.text-input.error,
+.select-input.error {
+    border-color: #e02b1d;
+    background-color: #fef2f2;
+}
+
+.text-input.error:focus,
+.select-input.error:focus {
+    border-color: #e02b1d;
+    box-shadow: 0 0 0 3px rgba(224, 43, 29, 0.1);
+}
+
+.text-input.error:hover,
+.select-input.error:hover {
+    border-color: #e02b1d;
+}
+
+/* Error Message Styling */
+.error-message {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #e02b1d;
+    font-weight: 500;
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.error-message::before {
+    content: '\26A0';
+    flex-shrink: 0;
+    font-size: 14px;
+}

@@ -1,0 +1,209 @@
+:host {
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+.section-container {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+}
+
+.section-title-container {
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #74b3e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e40af;;
+}
+
+.remove-section-btn {
+    background: none;
+    border: none;
+    color: #c23934;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    transition: color 0.2s ease;
+}
+
+.remove-section-btn:hover {
+    color: #a33028;
+    text-decoration: underline;
+}
+
+/* Grid Layout for Multi-Column Support */
+.question-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.grid-item {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.grid-item.dragging {
+    opacity: 0.4;
+    border: 2px dashed #0176d3;
+    background-color: #f3f2f2;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.dev-controls {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    z-index: 10;
+}
+
+.add-control {
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.grid-item:hover .add-control {
+    opacity: 1;
+}
+
+.dev-icon {
+    cursor: pointer;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    padding: 2px;
+}
+
+.delete-icon {
+    --sds-c-icon-color-foreground-default: #ea001e;
+}
+
+.add-icon {
+    --sds-c-icon-color-foreground-default: #027e46;
+}
+
+.dev-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Column Span Classes */
+.col-span-1 {
+    grid-column: span 1;
+}
+
+.col-span-2 {
+    grid-column: span 2;
+}
+
+/* Review Section Styles */
+.review-content {
+    padding: 0;
+}
+
+.review-step-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.review-step-section:last-child {
+    border-bottom: none;
+}
+
+.review-step-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1e40af;
+    margin: 0 0 1rem 0;
+}
+
+.review-section-block {
+    margin-bottom: 1.5rem;
+}
+
+.review-section-block:last-child {
+    margin-bottom: 0;
+}
+
+.review-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #3e3e3c;
+    margin: 0 0 0.75rem 0;
+}
+
+.review-fields-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.review-field-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-field-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+    letter-spacing: 0.025em;
+}
+
+.review-field-item div {
+    font-size: 0.875rem;
+    color: #111827;
+    word-wrap: break-word;
+}
+
+.review-field-item div.true {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .review-fields-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Remove bottom margin from dynamic-input since grid gap handles spacing */
+.grid-item c-dynamic-input {
+    margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .question-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .col-span-1,
+    .col-span-2 {
+        grid-column: span 1;
+    }
+}

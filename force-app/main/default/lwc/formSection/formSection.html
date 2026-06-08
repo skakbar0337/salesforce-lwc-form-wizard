@@ -1,0 +1,144 @@
+<template>
+    <div class="section-container">
+        <!-- Section Title with Remove Button for Repeatable Sections -->
+        <template if:true={sectionTitle}>
+            <div class="section-title-container">
+                <h2 class="section-title">{sectionTitle}</h2>
+                <template if:true={canRemove}>
+                    <button class="remove-section-btn" onclick={handleRemoveSection}>
+                        Remove
+                    </button>
+                </template>
+            </div>
+        </template>
+        
+        <!-- Review Section Display -->
+        <template if:true={isReviewSection}>
+            <div class="review-content">
+                <template if:true={reviewData}>
+                    <template for:each={reviewData} for:item="stepData">
+                        <div key={stepData.stepLabel} class="review-step-section">
+                            <h3 class="review-step-title">{stepData.stepLabel}</h3>
+                            
+                            <template for:each={stepData.sections} for:item="sectionData">
+                                <div key={sectionData.sectionLabel} class="review-section-block">
+                                    <template if:true={sectionData.sectionLabel}>
+                                        <h4 class="review-section-title">{sectionData.sectionLabel}</h4>
+                                    </template>
+                                    
+                                    <div class="review-fields-grid">
+                                        <template for:each={sectionData.fields} for:item="field">
+                                            <div key={field.label} class="review-field-item">
+                                                <div class="review-field-label">{field.label}</div>
+                                                <div class={field.isEmpty}>
+                                                    <span>{field.value}</span>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </template>
+                
+                <template if:false={reviewData}>
+                    <p class="slds-text-color_weak">No information to review yet.</p>
+                </template>
+            </div>
+        </template>
+        
+        <!-- Regular Section Display -->
+        <template if:false={sectionData.isCustom}>
+            <template if:false={isReviewSection}>
+                <div class="question-grid">
+                    <template if:true={hasNoQuestions}>
+                        <div class="slds-align_absolute-center slds-p-around_medium">
+                            <template if:true={isDevMode}>
+                                <lightning-button-icon icon-name="utility:add" 
+                                                    variant="border-filled" 
+                                                    alternative-text="Add Field" 
+                                                    title="Add Field"
+                                                    onclick={handleAddFieldToEmptySection}></lightning-button-icon>
+                            </template>
+                            <template if:false={isDevMode}>
+                                <p class="slds-text-color_weak">No fields in this section</p>
+                            </template>
+                        </div>
+                    </template>
+                    <template for:each={sectionData.questions} for:item="question">
+                        <div key={question.name} 
+                             class={question.columnClass}
+                             data-name={question.name}
+                             draggable={isDevMode}
+                             ondragstart={handleDragStart}
+                             ondragover={handleDragOver}
+                             ondrop={handleDrop}
+                             ondragend={handleDragEnd}>
+                            
+                            <div class="input-wrapper">
+                                <template if:true={isDevMode}>
+                                    <div class="dev-controls">
+                                        <lightning-icon icon-name="utility:close" 
+                                                      size="xx-small" 
+                                                      class="dev-icon delete-icon"
+                                                      title="Remove Field"
+                                                      data-name={question.name}
+                                                      onclick={handleDeleteField}>
+                                        </lightning-icon>
+                                    </div>
+                                </template>
+
+                                <c-dynamic-input
+                                    name={question.name}
+                                    label={question.label}
+                                    type={question.type}
+                                    placeholder={question.placeholder}
+                                    options={question.options}
+                                    show-label={question.showLabel}
+                                    required={question.isRequired}
+                                    disabled={question.disabled}
+                                    answers={answers}
+                                    variant={question.variant}
+                                    help-text={question.helpText}
+                                    max-length={question.maxLength}
+                                    onvaluechange={handleValueChange}
+                                    onvaluechange2={handleValueChange2}>
+                                </c-dynamic-input>
+
+                                <template if:true={isDevMode}>
+                                    <div class="add-control">
+                                        <lightning-icon icon-name="utility:add" 
+                                                      size="xx-small" 
+                                                      class="dev-icon add-icon"
+                                                      title="Add Field After"
+                                                      data-name={question.name}
+                                                      onclick={handleAddField}>
+                                        </lightning-icon>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </template>
+        <template if:true={sectionData.isCustom}>
+            <template lwc:if={componentConstructor}>
+                <lwc:component 
+                    lwc:is={componentConstructor} 
+                    data-custom-component
+                    state={state}
+                    answers={answers}
+                    cohort-index={sectionData.cohortIndex}
+                    cohort-name={sectionData.cohortName}
+                    total-cohorts={sectionData.totalCohorts}
+                    onvaluechange={handleValueChange}
+                    onvaluechange2={handleValueChange2}
+                    ondynamicstepschange={handleDynamicStepsChange}
+                    oncohortconfigchange={handleCohortConfigChange}>
+                </lwc:component>
+            </template>
+        </template>
+    </div>
+</template>

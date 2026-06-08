@@ -1,0 +1,16 @@
+.json-editor textarea {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    min-height: 400px;
+    white-space: pre;
+    overflow-x: auto;
+}
+
+.slds-badge {
+    font-size: 12px;
+}
+
+.slds-box {
+    border-radius: 4px;
+}

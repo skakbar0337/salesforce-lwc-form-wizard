@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>HTML email template for help requests from the Dynamic Request Form. Contains placeholder merge fields ({{{fullName}}}, {{{company}}}, {{{email}}}, {{{sessionName}}}, {{{sessionLink}}}, {{{comments}}}) that are replaced programmatically in Apex before sending.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>SRF Help Request Notification</name>
+    <style>none</style>
+    <subject>Dynamic Request Form - Help Request from {{{fullName}}}</subject>
+    <textOnly>false</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

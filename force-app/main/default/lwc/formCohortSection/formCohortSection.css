@@ -1,0 +1,725 @@
+.cohort-section {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    max-width: 100%;
+}
+
+/* Setup Header Styling */
+.setup-header {
+    margin-bottom: 24px;
+}
+
+.setup-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin: 0 0 4px 0;
+    line-height: 1.4;
+}
+
+.setup-subtitle {
+    font-size: 14px;
+    color: #4b5563;
+    margin: 0 0 12px 0;
+    line-height: 1.5;
+}
+
+.info-message {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.info-icon {
+    color: #2563eb;
+}
+
+.info-text {
+    font-size: 14px;
+    color: #2563eb;
+    line-height: 1.5;
+}
+
+/* Setup Card */
+.setup-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.setup-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 16px 0;
+    line-height: 1.4;
+}
+
+/* Description Section */
+.description {
+    margin-bottom: 20px;
+}
+
+.description-text {
+    font-size: 13px;
+    color: #4b5563;
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+}
+
+.example-list {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 13px;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+.example-list li {
+    margin-bottom: 2px;
+}
+
+/* Custom Number Input Section */
+.custom-input-section {
+    margin-top: 20px;
+    margin-bottom: 32px;
+}
+
+.custom-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+.custom-input {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px 14px;
+    font-size: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #1f2937;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.custom-input::placeholder {
+    color: #9ca3af;
+}
+
+.custom-input:focus {
+    outline: none;
+    border-color: #4c6ef5;
+    box-shadow: 0 0 0 3px rgba(76, 110, 245, 0.1);
+}
+
+.custom-input:hover {
+    border-color: #9ca3af;
+}
+
+.max-text {
+    font-size: 12px;
+    color: #6b7280;
+    margin: 6px 0 0 0;
+    line-height: 1.4;
+}
+
+/* Name Your Cohorts Section */
+.name-cohorts-section {
+    background-color: #eff6ff;
+    padding: 20px 24px;
+    border-radius: 8px;
+    margin-top: 16px;
+}
+
+.name-cohorts-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin: 0 0 20px 0;
+    line-height: 1.4;
+}
+
+/* Validation Error Message */
+.validation-error {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background-color: #fee;
+    border: 1px solid #fcc;
+    border-radius: 6px;
+    margin-bottom: 16px;
+}
+
+.error-icon {
+    flex-shrink: 0;
+}
+
+.error-text {
+    font-size: 13px;
+    color: #c00;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Cohort Input Rows */
+.cohort-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cohort-input-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cohort-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    background-color: #3b82f6;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.cohort-name-input {
+    flex: 1;
+    padding: 10px 14px;
+    font-size: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #1f2937;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.cohort-name-input::placeholder {
+    color: #9ca3af;
+}
+
+.cohort-name-input:focus {
+    outline: none;
+    border-color: #4c6ef5;
+    box-shadow: 0 0 0 3px rgba(76, 110, 245, 0.1);
+}
+
+.cohort-name-input:hover {
+    border-color: #9ca3af;
+}
+
+.cohort-pill {
+    display: inline-block;
+    background-color: #2563eb;
+    color: #ffffff;
+    padding: 4px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+
+.page-header {
+    margin-bottom: 16px;
+}
+
+.page-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin: 0;
+}
+
+.page-subtitle {
+    font-size: 14px;
+    color: #4b5563;
+    margin-top: 4px;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card-subtitle {
+    font-size: 14px;
+    color: #4b5563;
+    margin: 4px 0 12px 0;
+}
+
+.card-group {
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+.card-subtitle-heading {
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 6px;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 12px;
+}
+
+.field-group {
+    margin-bottom: 12px;
+}
+
+.field-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.textarea {
+    width: 100%;
+    min-height: 80px;
+    font-size: 14px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    resize: vertical;
+}
+
+.timeline-card {
+    background-color: #f3f8ff;
+}
+
+.timeline-row {
+    display: flex;
+    gap: 24px;
+}
+
+.timeline-field {
+    flex: 1;
+}
+
+.timeline-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+}
+
+.helper-text {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 12px;
+}
+
+/* ===== NEW STYLES FOR COHORT HEADER ===== */
+.cohort-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.cohort-progress-text {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* ===== LEUKOPAK CONFIGURATION 2-COLUMN GRID ===== */
+.leukopak-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 24px;
+}
+
+.field-full-width {
+    grid-column: 1 / -1;
+}
+
+.select-input,
+.text-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    background-color: #ffffff;
+    color: #1f2937;
+    transition: all 0.2s ease;
+}
+
+.select-input:focus,
+.text-input:focus {
+    outline: none;
+    border-color: #4c6ef5;
+    box-shadow: 0 0 0 3px rgba(76, 110, 245, 0.1);
+}
+
+.checkbox-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.checkbox-label span {
+    user-select: none;
+}
+
+/* ===== ADDITIONAL BIOSPECIMEN CARD ===== */
+.additional-biospecimen-card {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+}
+
+.biospecimen-section {
+    margin-top: 20px;
+}
+
+.biospecimen-section:first-child {
+    margin-top: 16px;
+}
+
+.section-heading {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 12px;
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.checkbox-grid-4col {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.checkbox-option:hover {
+    background-color: #f9fafb;
+    border-color: #9ca3af;
+}
+
+.checkbox-option input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.checkbox-option span {
+    font-size: 14px;
+    color: #374151;
+    user-select: none;
+}
+
+/* ===== TESTING & SCREENING RADIO CARDS ===== */
+.radio-group-horizontal {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.radio-card-option {
+    display: block;
+    position: relative;
+    cursor: pointer;
+}
+
+.radio-card-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.radio-card-content {
+    padding: 20px;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.radio-card-option input[type="radio"]:checked ~ .radio-card-content {
+    border-color: #2563eb;
+    background-color: #eff6ff;
+}
+
+.radio-card-option:hover .radio-card-content {
+    border-color: #9ca3af;
+}
+
+.radio-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 4px;
+}
+
+.radio-card-subtitle {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+/* Shipping Assignment Styles */
+.info-banner {
+    background-color: #eff6ff;
+    border-left: 4px solid #2563eb;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 12px;
+}
+
+.info-banner .info-icon {
+    color: #2563eb;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.info-content {
+    flex: 1;
+}
+
+.info-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e40af;
+    margin: 0 0 4px 0;
+}
+
+.info-content .info-text {
+    font-size: 14px;
+    color: #1e40af;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.address-assignment-card {
+    margin-bottom: 20px;
+}
+
+.address-header {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.address-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 8px 0;
+}
+
+.address-details {
+    margin-top: 8px;
+}
+
+.address-line {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 2px 0;
+}
+
+.biospecimen-summary {
+    margin-top: 16px;
+    padding: 16px;
+    background-color: #f9fafb;
+    border-radius: 6px;
+}
+
+.summary-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin: 0 0 8px 0;
+}
+
+.biospecimen-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.bio-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background-color: #dbeafe;
+    color: #1e40af;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.biospecimen-assignment {
+    margin-top: 16px;
+}
+
+.biospecimen-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 4px 0;
+}
+
+.biospecimen-subtitle {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0 0 12px 0;
+}
+
+.biospecimen-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.biospecimen-checkbox-container {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #ffffff;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.biospecimen-checkbox-container:hover {
+    border-color: #2563eb;
+    background: #eff6ff;
+}
+
+.biospecimen-checkbox-container.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f3f4f6;
+}
+
+.biospecimen-checkbox-container.disabled:hover {
+    border-color: #d1d5db;
+    background: #f3f4f6;
+}
+
+.biospecimen-checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.biospecimen-checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #9ca3af;
+    border-radius: 4px;
+    margin-right: 8px;
+    display: inline-block;
+    position: relative;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.biospecimen-checkbox:checked ~ .biospecimen-checkmark {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+.biospecimen-checkbox:checked ~ .biospecimen-checkmark::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.biospecimen-label {
+    font-size: 14px;
+    color: #111827;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 16px;
+    }
+
+    .name-cohorts-section {
+        padding: 20px;
+    }
+
+    .cohort-input-row {
+        gap: 10px;
+    }
+    
+    .leukopak-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .radio-group-horizontal {
+        grid-template-columns: 1fr;
+    }
+    
+    .checkbox-grid-4col {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .biospecimen-grid {
+        grid-template-columns: 1fr;
+    }
+}
