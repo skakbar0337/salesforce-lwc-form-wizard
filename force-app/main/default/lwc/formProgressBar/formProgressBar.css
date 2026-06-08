@@ -1,0 +1,182 @@
+﻿:host {
+    display: block;
+    width: 100%;
+}
+
+/* Wrapper for consistent rendering across contexts */
+.srf-progress-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.srf-progress {
+    position: relative;
+    padding: 2.5rem 2rem;
+    background: linear-gradient(to bottom, #ffffff, #fafbfc);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    border-radius: 12px;
+    min-width: fit-content;
+}
+
+.srf-progress__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+}
+
+/* Each step */
+.srf-step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+}
+
+.srf-step__top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+}
+
+/* line between steps - positioned to connect circles */
+.form-step__connector {
+    position: absolute;
+    left: 50%;
+    right: -50%;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 3px;
+    z-index: 1;
+    transition: background-color 0.3s ease;
+}
+
+.form-step__connector_complete {
+    background: linear-gradient(90deg, #1b96ff, #0b5cab);
+}
+
+.form-step__connector_default {
+    background: #e0e5eb;
+}
+
+/* base circle – default (upcoming) */
+.form-step__circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #d0d5dd;
+    background: #ffffff;
+    color: #667085;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* ACTIVE step: darker blue with glow */
+:host .form-step__circle_active {
+    border-color: #0b5cab !important;
+    background: #0b5cab !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 0 4px rgba(11, 92, 171, 0.2), 0 4px 8px rgba(11, 92, 171, 0.3) !important;
+    transform: scale(1.05);
+}
+
+/* COMPLETED step: lighter blue with checkmark style */
+:host .form-step__circle_complete {
+    border-color: #1b96ff !important;
+    background: #1b96ff !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 6px rgba(27, 150, 255, 0.3) !important;
+}
+
+.srf-step__number {
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.01em;
+}
+
+/* labels */
+.form-step__label {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: #667085;
+    white-space: normal;
+    line-height: 1.4;
+    font-weight: 500;
+    max-width: 120px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    transition: color 0.3s ease;
+}
+
+.form-step__label_active {
+    color: #0b5cab;
+    font-weight: 700;
+}
+
+.form-step__label_complete {
+    color: #475467;
+    font-weight: 500;
+}
+
+/* Responsive adjustments for medium screens */
+@media (max-width: 1024px) {
+    .srf-progress {
+        padding: 2rem 1.5rem;
+    }
+
+    .form-step__label {
+        max-width: 100px;
+    }
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .srf-progress {
+        padding: 1.5rem 1rem;
+        border-radius: 8px;
+    }
+
+    .form-step__circle {
+        width: 36px;
+        height: 36px;
+    }
+
+    .srf-step__number {
+        font-size: 0.8125rem;
+    }
+
+    .form-step__label {
+        font-size: 0.75rem;
+        margin-top: 0.75rem;
+        max-width: 80px;
+    }
+
+    .form-step__connector {
+        height: 2px;
+    }
+}
+
+/* Experience Cloud and Community specific adjustments */
+.slds-scope .srf-progress,
+.comm-page-row .srf-progress,
+.slds-community-theme .srf-progress {
+    padding: 2rem 2rem;
+    box-shadow: none;
+}

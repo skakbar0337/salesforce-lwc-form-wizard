@@ -1,0 +1,249 @@
+﻿{
+  "formType": "Sameday Forms",
+  "accountId": "001O2000011oYbfIAE",
+  "title": "ClientG_Sameday",
+  "total_steps": 3,
+  "show_progress_bar": false,
+  "allow_save_resume": false,
+  "emailSessionRequired": false,
+  "submissionController": "DirectSubmissionHandler",
+  "steps": [
+    {
+      "number": 1,
+      "label": "ClientG SD Request Form - Same-Day Healthy Samples",
+      "progressLabel": "Request Form",
+      "description": "* Approximate lead time 7-10 business days is preferred for adequate scheduling and coordination at this time. * Requests submitted within less time are not guaranteed to be fulfilled.",
+      "sections": [
+        {
+          "name": "todayDate",
+          "label": "",
+          "is_repeatable": false,
+          "questions": [
+            {
+              "name": "submittedFormTitle",
+              "label": "",
+              "type": "text",
+              "isRequired": false,
+              "num_columns": 1,
+              "readOnly": true,
+              "defaultValue": "ClientG_Sameday",
+              "hidden": true,
+              "targetField": "Submitted_Form_Title__c"
+            },
+            {
+              "name": "todaysDate",
+              "label": "Today's date:",
+              "type": "date",
+              "isRequired": true,
+              "num_columns": 1,
+              "placeholder": "mm/dd/yyyy",
+              "targetField": "Submission_Date__c"
+            }
+          ]
+        },
+        {
+          "name": "sampleRequestDetails",
+          "label": "Sample Request Details",
+          "is_repeatable": false,
+          "questions": [
+            {
+              "name": "dateOfDelivery",
+              "label": "Date of Delivery",
+              "type": "date",
+              "isRequired": true,
+              "num_columns": 2,
+              "placeholder": "mm/dd/yyyy",
+              "helpText": "Please allow at least ten (10) days for adequate scheduling and coordination.",
+              "targetField": "Date_of_Delivery__c"
+            },
+            {
+              "name": "backupDeliveryDates",
+              "label": "Backup Date(s) of Delivery",
+              "type": "text",
+              "isRequired": true,
+              "num_columns": 2,
+              "helpText": "Please provide backup dates of delivery in case we cannot identify a donor for your requested date of delivery.",
+              "targetField": "Backup_Delivery_Dates__c"
+            },
+            {
+              "name": "donorQuantity",
+              "label": "How many donors? (QTY)",
+              "type": "dropdown",
+              "isRequired": true,
+              "num_columns": 2,
+              "options": [
+                {
+                  "label": "1",
+                  "value": "1"
+                },
+                {
+                  "label": "2",
+                  "value": "2"
+                },
+                {
+                  "label": "3",
+                  "value": "3"
+                },
+                {
+                  "label": "4",
+                  "value": "4"
+                }
+              ],
+              "targetField": "Donor_Quantity__c"
+            },
+            {
+              "name": "volumePerDonor",
+              "label": "Total Volume (mL) per donor (180 mL Max / 6 weeks)",
+              "type": "text",
+              "isRequired": true,
+              "num_columns": 2,
+              "targetField": "Volume_per_Donor_mL__c"
+            },
+            {
+              "name": "tubesRequested",
+              "label": "Tubes Requested",
+              "type": "checkbox",
+              "isRequired": true,
+              "num_columns": 2,
+              "options": [
+                {
+                  "label": "Citrate (3.5 mL)",
+                  "value": "Citrate (3.5 mL)"
+                },
+                {
+                  "label": "Na Heparin (10 mL)",
+                  "value": "Na Heparin (10 mL)"
+                },
+                {
+                  "label": "Na Heparin (4 mL)",
+                  "value": "Na Heparin (4 mL)"
+                },
+                {
+                  "label": "K2 EDTA (10 mL)",
+                  "value": "K2 EDTA (10 mL)"
+                },
+                {
+                  "label": "K3 EDTA (6 mL)",
+                  "value": "K3 EDTA (6 mL)"
+                },
+                {
+                  "label": "SST (8.5 mL)",
+                  "value": "SST (8.5 mL)"
+                },
+                {
+                  "label": "SST (5 mL)",
+                  "value": "SST (5 mL)"
+                },
+                {
+                  "label": "Other",
+                  "value": "Other"
+                }
+              ],
+              "targetField": "Tubes_Requested__c"
+            },
+            {
+              "name": "tubesPerSample",
+              "label": "How many tubes (per sample)?",
+              "type": "dropdown",
+              "isRequired": true,
+              "num_columns": 2,
+              "options": [
+                { "label": "1", "value": "1" },
+                { "label": "2", "value": "2" },
+                { "label": "3", "value": "3" },
+                { "label": "4", "value": "4" },
+                { "label": "5", "value": "5" },
+                { "label": "6", "value": "6" },
+                { "label": "7", "value": "7" },
+                { "label": "8", "value": "8" },
+                { "label": "9", "value": "9" },
+                { "label": "10", "value": "10" },
+                { "label": "11", "value": "11" },
+                { "label": "12", "value": "12" },
+                { "label": "13", "value": "13" },
+                { "label": "14", "value": "14" },
+                { "label": "15", "value": "15" },
+                { "label": "16", "value": "16" },
+                { "label": "17", "value": "17" },
+                { "label": "18", "value": "18" },
+                { "label": "19", "value": "19" },
+                { "label": "20", "value": "20" },
+                { "label": "21", "value": "21" },
+                { "label": "22", "value": "22" },
+                { "label": "23", "value": "23" },
+                { "label": "24", "value": "24" },
+                { "label": "25", "value": "25" },
+                { "label": "26", "value": "26" },
+                { "label": "27", "value": "27" },
+                { "label": "28", "value": "28" },
+                { "label": "29", "value": "29" },
+                { "label": "30", "value": "30" }
+              ],
+              "targetField": "Tubes_Per_Sample__c"
+            },
+            {
+              "name": "multipleTubeRequests",
+              "label": "Multiple Tube Requests (Type & QTY)",
+              "type": "textarea",
+              "isRequired": false,
+              "num_columns": 1,
+              "rows": 3,
+              "helpText": "If multiple tube types are needed, please specify which tube types and quantity of each.",
+              "targetField": "Other_Tube_Type_Volume__c"
+            }
+          ]
+        },
+        {
+          "name": "additionalInfo",
+          "label": "",
+          "is_repeatable": false,
+          "questions": [
+            {
+              "name": "additionalComments",
+              "label": "Additional Comments:",
+              "type": "textarea",
+              "isRequired": false,
+              "num_columns": 1,
+              "rows": 4,
+              "targetField": "Additional_Comments__c"
+            },
+            {
+              "name": "sendCopyOfResponses",
+              "label": "Send me a copy of my responses",
+              "type": "single-checkbox",
+              "isRequired": false,
+              "num_columns": 1,
+              "targetField": "Send_Copy_Of_Responses__c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "label": "Review & Submit",
+      "progressLabel": "Review",
+      "description": "Please review your information before submitting",
+      "isReview": true,
+      "sections": [
+        {
+          "name": "reviewSection",
+          "label": "Summary of Your Responses",
+          "isReview": true,
+          "questions": []
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "label": "Confirmation",
+      "progressLabel": "Confirmation",
+      "showNavigation": false,
+      "description": "Confirmation",
+      "type": "html-only",
+      "content": {
+        "html": "<div style='text-align: center; color: black; font-family: sans-serif;'><p style='font-size: 18px; font-weight: bold; margin-bottom: 20px;'>Thank You!</p><p>You have successfully submitted a request to the ClientG Same-Day Healthy Blood Sample Program!</p><p style='margin-top: 20px;'>If you need to cancel or reschedule your request, please email your research coordinator at <a href='mailto:janssen-sameday@company.com'>janssen-sameday@company.com</a>.</p><p style='margin-top: 30px;'>Thank you,<br>BioRequest Team</p></div>"
+      }
+    }
+  ]
+}

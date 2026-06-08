@@ -1,0 +1,37 @@
+﻿<template>
+    <template lwc:if={showSelection}>
+        <lightning-card title="Dynamic Request Form Wizard Selection">
+            <div class="slds-p-around_medium">
+                <lightning-combobox
+                    name="wizardConfig"
+                    label="Select Wizard Configuration"
+                    value={selectedConfig}
+                    placeholder="Select a configuration"
+                    options={wizardOptions}
+                    onchange={handleConfigChange}
+                ></lightning-combobox>
+                <div class="slds-m-top_medium">
+                    <lightning-button
+                        variant="brand"
+                        label="Continue"
+                        title="Continue to Wizard"
+                        onclick={handleContinue}
+                        disabled={isContinueDisabled}
+                    ></lightning-button>
+                </div>
+            </div>
+        </lightning-card>
+    </template>
+
+    <template lwc:if={showContainer}>
+        <div class="slds-m-bottom_medium">
+            <lightning-button 
+                label="Back to Selection" 
+                onclick={handleBack} 
+                variant="neutral"
+                icon-name="utility:back">
+            </lightning-button>
+        </div>
+        <c-form-wizard-container static-form-type={selectedConfig}></c-form-wizard-container>
+    </template>
+</template>

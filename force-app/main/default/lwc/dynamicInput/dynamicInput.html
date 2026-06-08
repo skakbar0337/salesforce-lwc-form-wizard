@@ -1,0 +1,225 @@
+<template>
+    <div class={containerClass} data-name={name}>
+        <!-- Label -->
+        <template if:true={showLabel}>
+            <label class={labelClass}>
+                {label}
+                <template if:true={required}>
+                    <span class="required-indicator">*</span>
+                </template>
+            </label>
+        </template>
+
+        <!-- File Upload Input -->
+        <template if:true={isFileInput}>
+            <div class="file-upload-wrapper">
+                <lightning-file-upload
+                    label=""
+                    name={name}
+                    record-id={parentRecordId}
+                    accept={acceptedFormats}
+                    multiple
+                    disabled={disabled}
+                    required={required}
+                    onuploadfinished={handleFileUpload}
+                    class="file-upload-box">
+                </lightning-file-upload>
+                <template if:true={helpText}>
+                    <div class="help-text file-upload-help">{helpText}</div>
+                </template>
+            </div>
+        </template>
+
+        <!-- Text Input -->
+        <template if:true={isTextInput}>
+            <input
+                type="text"
+                name={name}
+                value={value}
+                placeholder={placeholder}
+                required={required}
+                disabled={disabled}
+                class={inputFieldClass}
+                onchange={handleChange}
+                onblur={handleBlur}
+            />
+        </template>
+
+        <!-- Textarea Input -->
+        <template if:true={isTextarea}>
+            <textarea
+                name={name}
+                placeholder={placeholder}
+                required={required}
+                disabled={disabled}
+                rows={rows}
+                maxlength={maxLength}
+                class={inputFieldClass}
+                onchange={handleChange}
+                onblur={handleBlur}
+            >{value}</textarea>
+        </template>
+
+        <!-- Date Input -->
+        <template if:true={isDateInput}>
+            <input
+                type="date"
+                name={name}
+                value={value}
+                required={required}
+                disabled={disabled}
+                class={inputFieldClass}
+                onchange={handleChange}
+                onblur={handleBlur}
+            />
+        </template>
+
+        <!-- Number Input -->
+        <template if:true={isNumberInput}>
+            <input
+                type="number"
+                name={name}
+                value={value}
+                placeholder={placeholder}
+                required={required}
+                disabled={disabled}
+                min={min}
+                max={max}
+                step={step}
+                class={inputFieldClass}
+                onchange={handleChange}
+                onblur={handleBlur}
+            />
+        </template>
+
+        <!-- Tel Input (numeric only - for phone, zip code) -->
+        <template if:true={isTelInput}>
+            <input
+                type="tel"
+                name={name}
+                value={value}
+                placeholder={placeholder}
+                required={required}
+                disabled={disabled}
+                pattern="[0-9]*"
+                inputmode="numeric"
+                class={inputFieldClass}
+                onchange={handleChange}
+                onblur={handleBlur}
+                oninput={handleTelInput}
+            />
+        </template>
+
+        <!-- Dropdown/Select -->
+        <template if:true={isDropdown}>
+            <select
+                name={name}
+                required={required}
+                disabled={disabled}
+                class={inputFieldClass}
+                onchange={handleChange}
+            >
+                <option value="" disabled selected={isPlaceholderSelected}>
+                    {placeholder}
+                </option>
+                <template for:each={options} for:item="option">
+                    <option 
+                        key={option.value} 
+                        value={option.value}
+                        selected={option.selected}
+                    >
+                        {option.label}
+                    </option>
+                </template>
+            </select>
+        </template>
+
+        <!-- Radio Button Group -->
+        <template if:true={isRadio}>
+            <div class={radioGroupClass}>
+                <template for:each={options} for:item="option">
+                    <div key={option.value} class={getRadioButtonClass}>
+                        <input
+                            type="radio"
+                            name={name}
+                            value={option.value}
+                            checked={option.checked}
+                            disabled={disabled}
+                            data-value={option.value}
+                            onchange={handleRadioChange}
+                            id={option.id}
+                        />
+                        <!-- Card / standard radio label -->
+                        <label for={option.id} class={computedRadioClass}>
+                            <span class="study-type-main-label">
+                                {option.label}
+                            </span>
+                            <template if:true={option.subLabel}>
+                                <span class="study-type-sub-label">
+                                    {option.subLabel}
+                                </span>
+                            </template>
+                        </label>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <!-- Checkbox Group -->
+        <template if:true={isCheckbox}>
+            <div class={checkboxGroupClass}>
+                <template for:each={options} for:item="option">
+                    <div key={option.value} class="checkbox-item">
+                        <input
+                            type="checkbox"
+                            name={name}
+                            value={option.value}
+                            checked={option.checked}
+                            disabled={disabled}
+                            data-value={option.value}
+                            onchange={handleCheckboxChange}
+                            id={option.id}
+                        />
+                        <label for={option.id} class="checkbox-label">
+                            {option.label}
+                        </label>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <!-- Single Checkbox -->
+        <template if:true={isSingleCheckbox}>
+            <div class="single-checkbox-container">
+                <input
+                    type="checkbox"
+                    name={name}
+                    checked={checked}
+                    disabled={disabled}
+                    onchange={handleSingleCheckboxChange}
+                    id={uniqueId}
+                />
+                <label for={uniqueId} class="checkbox-label">
+                    {label}
+                    <template if:true={required}>
+                        <span class="required-indicator">*</span>
+                    </template>
+                </label>
+            </div>
+        </template>
+
+        <!-- Error Message -->
+        <template if:true={hasError}>
+            <div class="error-message">
+                {errorMessage}
+            </div>
+        </template>
+
+        <!-- Help Text -->
+        <template if:true={helpText}>
+            <div class="help-text">
+                {helpText}
+            </div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,116 @@
+<template>
+    <lightning-card title="Session JSON Editor" icon-name="utility:edit_form">
+        <div slot="actions">
+            <lightning-button-icon
+                icon-name="utility:refresh"
+                onclick={handleRefresh}
+                disabled={isLoading}
+                alternative-text="Refresh">
+            </lightning-button-icon>
+        </div>
+
+        <template if:true={isLoading}>
+            <div class="slds-p-around_medium slds-align_absolute-center">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:false={isLoading}>
+            <template if:true={hasSessionData}>
+                <!-- Session Info Section -->
+                <div class="slds-p-horizontal_medium slds-p-top_small">
+                    <div class="slds-grid slds-wrap slds-gutters_small">
+                        <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-3">
+                            <p class="slds-text-title_caps slds-text-color_weak">Session Name</p>
+                            <p class="slds-text-body_regular">{sessionName}</p>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-3">
+                            <p class="slds-text-title_caps slds-text-color_weak">Status</p>
+                            <span class={statusBadgeClass}>{sessionStatus}</span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-3 slds-m-top_small slds-medium-m-top_none">
+                            <p class="slds-text-title_caps slds-text-color_weak">Wizard Type</p>
+                            <p class="slds-text-body_regular">{wizardType}</p>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-3 slds-m-top_small">
+                            <p class="slds-text-title_caps slds-text-color_weak">Email</p>
+                            <p class="slds-text-body_regular">{guestEmail}</p>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-3 slds-m-top_small">
+                            <p class="slds-text-title_caps slds-text-color_weak">Current Step</p>
+                            <p class="slds-text-body_regular">{currentStep}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="slds-m-vertical_medium"/>
+
+                <!-- JSON Editor Section -->
+                <div class="slds-p-horizontal_medium">
+                    <lightning-textarea
+                        label="Answers JSON"
+                        value={editedJson}
+                        onchange={handleJsonChange}
+                        class="json-editor"
+                        max-length="131072">
+                    </lightning-textarea>
+
+                    <p class="slds-m-top_x-small"><span class={validationClass}>{validationMessage}</span></p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="slds-p-around_medium slds-text-align_right">
+                    <lightning-button
+                        label="Reset to Original"
+                        onclick={handleReset}
+                        variant="neutral"
+                        class="slds-m-right_x-small">
+                    </lightning-button>
+                    <lightning-button
+                        label="Save JSON Only"
+                        onclick={handleSaveJson}
+                        disabled={isSaveDisabled}
+                        variant="neutral"
+                        class="slds-m-right_x-small">
+                    </lightning-button>
+                    <lightning-button
+                        label="Resubmit Form"
+                        onclick={handleResubmit}
+                        disabled={isResubmitDisabled}
+                        variant="brand">
+                    </lightning-button>
+                </div>
+
+                <!-- Submission Result -->
+                <template if:true={hasSubmissionResult}>
+                    <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+                        <template if:true={submissionSuccess}>
+                            <div class="slds-box slds-theme_success slds-theme_alert-texture">
+                                <div class="slds-grid slds-grid_vertical-align-center">
+                                    <lightning-icon icon-name="utility:success" size="small" class="slds-m-right_small"></lightning-icon>
+                                    <div>
+                                        <p class="slds-text-heading_small">{submissionMessage}</p>
+                                        <template if:true={submissionSessionName}>
+                                            <p class="slds-text-body_small">Session: {submissionSessionName}</p>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:false={submissionSuccess}>
+                            <div class="slds-box slds-theme_error slds-theme_alert-texture">
+                                <div class="slds-grid slds-grid_vertical-align-center">
+                                    <lightning-icon icon-name="utility:error" size="small" class="slds-m-right_small" inverse></lightning-icon>
+                                    <div>
+                                        <p class="slds-text-heading_small">Submission Failed</p>
+                                        <p class="slds-text-body_small">{submissionMessage}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </template>
+        </template>
+    </lightning-card>
+</template>

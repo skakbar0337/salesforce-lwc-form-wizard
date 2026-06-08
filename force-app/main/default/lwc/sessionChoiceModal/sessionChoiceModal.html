@@ -1,0 +1,51 @@
+<template>
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+        <div class="slds-modal__container">
+            <!-- Modal Header -->
+            <header class="slds-modal__header">
+                <h2 class="slds-text-heading_medium">Existing Application Found</h2>
+            </header>
+
+            <!-- Modal Body -->
+            <div class="slds-modal__content slds-p-around_medium">
+                <p class="slds-text-body_regular slds-m-bottom_medium">
+                    We found an existing Study Request application associated with your email address.
+                </p>
+                <p class="slds-text-body_regular slds-m-bottom_medium">
+                    Would you like to continue with your previous application or start a new one?
+                </p>
+                
+                <template if:true={sessionInfo}>
+                    <div class="slds-box slds-box_x-small slds-theme_shade slds-m-bottom_medium">
+                        <dl class="slds-list_horizontal slds-wrap">
+                            <dt class="slds-item_label slds-text-body_small slds-m-right_small">Last Updated:</dt>
+                            <dd class="slds-item_detail slds-text-body_small">{formattedLastModified}</dd>
+                        </dl>
+                    </div>
+                </template>
+
+                <div class="slds-text-body_small slds-text-color_weak slds-m-top_medium">
+                    <lightning-icon icon-name="utility:info" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                    Choosing "Start New Application" will abandon your previous application.
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <footer class="slds-modal__footer">
+                <button 
+                    class="slds-button slds-button_neutral" 
+                    onclick={handleStartNew}
+                    disabled={isProcessing}>
+                    Start New Application
+                </button>
+                <button 
+                    class="slds-button slds-button_brand" 
+                    onclick={handleResume}
+                    disabled={isProcessing}>
+                    Resume Previous Session
+                </button>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

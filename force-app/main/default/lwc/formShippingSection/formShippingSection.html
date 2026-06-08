@@ -1,0 +1,216 @@
+<template>
+    <div class="shipping-section-container">
+        <!-- Radio Button Group -->
+        <div class="shipping-card">
+            <div class="radio-question">
+                <label class="question-label">
+                    Do you need biospecimens shipped to multiple locations?
+                    <span class="required-indicator">*</span>
+                </label>
+                <div class="radio-group">
+                    <label class={singleLocationClass}>
+                        <input
+                            type="radio"
+                            name="multipleLocations"
+                            value="single"
+                            checked={isSingleLocation}
+                            onchange={handleRadioChange}
+                            class="radio-input"
+                        />
+                        <span class="radio-visual"></span>
+                        <span class="radio-text">Single location</span>
+                    </label>
+                    <label class={multipleLocationClass}>
+                        <input
+                            type="radio"
+                            name="multipleLocations"
+                            value="multiple"
+                            checked={isMultipleLocations}
+                            onchange={handleRadioChange}
+                            class="radio-input"
+                        />
+                        <span class="radio-visual"></span>
+                        <span class="radio-text">Multiple locations</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Address Forms -->
+        <template if:true={showAddresses}>
+            <template for:each={addressSections} for:item="addressSection">
+                <div key={addressSection.key} class="address-card">
+                    <div class="address-card-header">
+                        <h3 class="address-title">{addressSection.title}</h3>
+                        <template if:true={addressSection.canRemove}>
+                            <button 
+                                class="remove-address-btn" 
+                                data-index={addressSection.index}
+                                onclick={handleRemoveAddress}>
+                                Remove
+                            </button>
+                        </template>
+                    </div>
+
+                <div class="address-fields">
+                    <!-- Company -->
+                    <div class="field-wrapper full-width">
+                        <c-dynamic-input
+                            name={addressSection.companyField}
+                            label="Company"
+                            type="text"
+                            placeholder="Company name"
+                            required="true"
+                            show-label="true"
+                            answers={answers}
+                            data-index={addressSection.index}
+                            data-field="company"
+                            onvaluechange2={handleFieldChange}>
+                        </c-dynamic-input>
+                    </div>
+
+                    <!-- Full Name -->
+                    <div class="field-wrapper full-width">
+                        <c-dynamic-input
+                            name={addressSection.fullNameField}
+                            label="Full Name"
+                            type="text"
+                            placeholder="Who the samples should be addressed to at the time of delivery"
+                            required="true"
+                            show-label="true"
+                            answers={answers}
+                            data-index={addressSection.index}
+                            data-field="fullName"
+                            onvaluechange2={handleFieldChange}>
+                        </c-dynamic-input>
+                    </div>
+
+                    <!-- Country Selection -->
+                    <div class="field-wrapper full-width">
+                        <label class="field-label">Country <span class="required-indicator">*</span></label>
+                        <select
+                            class="country-select"
+                            data-index={addressSection.index}
+                            data-field="country"
+                            onchange={handleCountryChange}>
+                            <option value="United States" selected={addressSection.isUS}>United States</option>
+                            <option value="International" selected={addressSection.isInternational}>International</option>
+                        </select>
+                    </div>
+
+                    <!-- US Address Fields -->
+                    <template if:true={addressSection.isUS}>
+                        <!-- Address -->
+                        <div class="field-wrapper full-width">
+                            <c-dynamic-input
+                                name={addressSection.addressField}
+                                label="Address"
+                                type="text"
+                                placeholder="Street address"
+                                required="true"
+                                show-label="true"
+                                answers={answers}
+                                data-index={addressSection.index}
+                                data-field="address"
+                                onvaluechange2={handleFieldChange}>
+                            </c-dynamic-input>
+                        </div>
+
+                        <!-- City and State -->
+                        <div class="field-row">
+                            <div class="field-wrapper half-width">
+                                <c-dynamic-input
+                                    name={addressSection.cityField}
+                                    label="City"
+                                    type="text"
+                                    placeholder="City"
+                                    required="true"
+                                    show-label="true"
+                                    answers={answers}
+                                    data-index={addressSection.index}
+                                    data-field="city"
+                                    onvaluechange2={handleFieldChange}>
+                                </c-dynamic-input>
+                            </div>
+                            <div class="field-wrapper half-width">
+                                <c-dynamic-input
+                                    name={addressSection.stateField}
+                                    label="State"
+                                    type="text"
+                                    placeholder="State"
+                                    required="true"
+                                    show-label="true"
+                                    answers={answers}
+                                    data-index={addressSection.index}
+                                    data-field="state"
+                                    onvaluechange2={handleFieldChange}>
+                                </c-dynamic-input>
+                            </div>
+                        </div>
+
+                        <!-- Zip Code -->
+                        <div class="field-wrapper half-width">
+                            <c-dynamic-input
+                                name={addressSection.zipCodeField}
+                                label="Zip Code"
+                                type="tel"
+                                placeholder="12345"
+                                required="true"
+                                show-label="true"
+                                answers={answers}
+                                data-index={addressSection.index}
+                                data-field="zipCode"
+                                onvaluechange2={handleFieldChange}>
+                            </c-dynamic-input>
+                        </div>
+                    </template>
+
+                    <!-- International Address Fields -->
+                    <template if:true={addressSection.isInternational}>
+                        <!-- Full Address (single field for international) -->
+                        <div class="field-wrapper full-width">
+                            <c-dynamic-input
+                                name={addressSection.addressField}
+                                label="Full Address"
+                                type="textarea"
+                                placeholder="Enter complete address including city, state/province, postal code, and country"
+                                required="true"
+                                show-label="true"
+                                answers={answers}
+                                data-index={addressSection.index}
+                                data-field="address"
+                                onvaluechange2={handleFieldChange}>
+                            </c-dynamic-input>
+                        </div>
+                    </template>
+
+                    <!-- Phone Number -->
+                    <div class="field-wrapper half-width">
+                        <c-dynamic-input
+                            name={addressSection.phoneField}
+                            label="Ship to Phone Number"
+                            type="tel"
+                            placeholder="5555555555"
+                            required="true"
+                            show-label="true"
+                            answers={answers}
+                            data-index={addressSection.index}
+                            data-field="phone"
+                            onvaluechange2={handleFieldChange}>
+                        </c-dynamic-input>
+                    </div>
+                </div>
+                </div>
+            </template>
+        </template>
+
+        <!-- Add Additional Address Button -->
+        <template if:true={showAddButton}>
+            <template if:true={canAddMore}>
+                <button class="add-address-btn" onclick={handleAddAddress}>
+                    + Add Another Shipping Address
+                </button>
+            </template>
+        </template>
+    </div>
+</template>

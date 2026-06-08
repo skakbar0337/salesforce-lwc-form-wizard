@@ -1,0 +1,57 @@
+<template>
+    <div class="srf-nav-container">
+        <div class={navContentClass}>
+            <!-- Previous Button -->
+            <template if:true={showPrevious}>
+                <button
+                    class="srf-nav-button srf-nav-button_previous"
+                    onclick={handlePreviousClick}
+                    disabled={disablePrevious}
+                    aria-label="Go to previous step"
+                >
+                    <svg class="srf-nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                    </svg>
+                    {previousButtonLabel}
+                </button>
+            </template>
+
+            <!-- Next/Complete Button -->
+            <template if:true={showNext}>
+                <button
+                    class={nextButtonClass}
+                    onclick={handleNextClick}
+                    disabled={disableNext}
+                    aria-label={nextButtonAriaLabel}
+                >
+                    <template if:true={isLastStep}>
+                        <svg class="srf-nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                    </template>
+                    {nextButtonLabel}
+                    <template if:false={isLastStep}>
+                        <svg class="srf-nav-icon srf-nav-icon_right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/>
+                        </svg>
+                    </template>
+                </button>
+            </template>
+
+            <!-- Submit Button -->
+            <template if:true={showSubmit}>
+                <button
+                    class="srf-nav-button srf-nav-button_next srf-nav-button_complete"
+                    onclick={handleSubmitClick}
+                    disabled={disableSubmit}
+                    aria-label="Submit form"
+                >
+                    <svg class="srf-nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                    {submitButtonLabel}
+                </button>
+            </template>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,349 @@
+.shipping-section-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.shipping-card,
+.address-card {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+}
+
+.radio-question {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.question-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #181818;
+    display: block;
+}
+
+.required-indicator {
+    color: #e02b1d;
+    margin-left: 2px;
+}
+
+.radio-group {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.radio-option-card {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid #dddbda;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #fff;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.radio-option-card:hover {
+    border-color: #0176d3;
+}
+
+.radio-option-card.selected {
+    border-color: #0176d3;
+    background-color: #f0f8ff; /* Light blue tint */
+    box-shadow: 0 0 0 1px #0176d3 inset;
+}
+
+.radio-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.radio-visual {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #dddbda;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.radio-option-card.selected .radio-visual {
+    border-color: #0176d3;
+}
+
+.radio-option-card.selected .radio-visual::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background-color: #0176d3;
+    border-radius: 50%;
+}
+
+.radio-text {
+    font-size: 0.9375rem;
+    font-weight: 400;
+    color: #3e3e3c;
+    cursor: pointer;
+}
+
+.address-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #0176d3;
+}
+
+.address-title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #0176d3;
+}
+
+.remove-address-btn {
+    background: none;
+    border: none;
+    color: #c23934;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    transition: color 0.2s ease;
+}
+
+.remove-address-btn:hover {
+    color: #a33028;
+    text-decoration: underline;
+}
+
+.address-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.field-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.field-wrapper.full-width {
+    grid-column: span 2;
+}
+
+.field-wrapper.half-width {
+    grid-column: span 1;
+}
+
+.add-address-btn {
+    background: #ffffff;
+    border: 2px dashed #c9c7c5;
+    border-radius: 4px;
+    padding: 1rem;
+    color: #0176d3;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.add-address-btn:hover {
+    background-color: #f3f9ff;
+    border-color: #0176d3;
+}
+
+/* Biospecimen Assignment Styles */
+.biospecimen-assignment {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.biospecimen-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #181818;
+    margin-bottom: 0.25rem;
+}
+
+.biospecimen-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+
+.biospecimen-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.biospecimen-checkbox-container {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #ffffff;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.biospecimen-checkbox-container:hover {
+    border-color: #0176d3;
+    background: #f3f9ff;
+}
+
+.biospecimen-checkbox-container.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f3f4f6;
+}
+
+.biospecimen-checkbox-container.disabled:hover {
+    border-color: #d8dde6;
+    background: #f3f4f6;
+}
+
+.biospecimen-checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.biospecimen-checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #c9c7c5;
+    border-radius: 3px;
+    margin-right: 0.5rem;
+    display: inline-block;
+    position: relative;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.biospecimen-checkbox:checked ~ .biospecimen-checkmark {
+    background-color: #0176d3;
+    border-color: #0176d3;
+}
+
+.biospecimen-checkbox:checked ~ .biospecimen-checkmark::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.biospecimen-label {
+    font-size: 0.875rem;
+    color: #181818;
+    font-weight: 500;
+}
+
+.comments-textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 0.75rem;
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.875rem;
+    resize: vertical;
+    transition: border-color 0.2s ease;
+}
+
+.comments-textarea:focus {
+    outline: none;
+    border-color: #0176d3;
+    box-shadow: 0 0 0 3px rgba(1, 118, 211, 0.1);
+}
+
+.field-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #181818;
+    margin-bottom: 0.5rem;
+}
+
+.country-select {
+    width: 100%;
+    padding: 10px 14px;
+    padding-right: 40px;
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 12px;
+    background-color: #ffffff;
+    color: #181818;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667085' d='M6 8.5L1.5 4h9z'/%3E%3C/svg%3E");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.country-select:hover {
+    border-color: #b8bfc9;
+}
+
+.country-select:focus {
+    outline: none;
+    border-color: #4c6ef5;
+    box-shadow: 0 0 0 3px rgba(76, 110, 245, 0.1);
+}
+
+@media (max-width: 768px) {
+    .radio-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .field-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .field-wrapper.full-width,
+    .field-wrapper.half-width {
+        grid-column: span 1;
+    }
+    
+    .biospecimen-grid {
+        grid-template-columns: 1fr;
+    }
+}

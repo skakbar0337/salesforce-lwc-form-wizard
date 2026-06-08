@@ -1,0 +1,281 @@
+<template>
+    <template if:true={isOpen}>
+        <div class="modal-backdrop" onclick={handleBackdropClick}>
+            <div class="modal-container" onclick={handleContentClick}>
+                <!-- Success State -->
+                <template if:true={showSuccess}>
+                    <div class="modal-header modal-header--success">
+                        <div class="header-content">
+                            <div class="header-icon">
+                                <lightning-icon icon-name="utility:check" size="medium" variant="inverse"></lightning-icon>
+                            </div>
+                            <div class="header-text">
+                                <h2 class="modal-title">Message Sent!</h2>
+                                <p class="modal-subtitle">We'll get back to you soon</p>
+                            </div>
+                        </div>
+                        <button class="close-btn" onclick={handleClose} title="Close">
+                            <lightning-icon icon-name="utility:close" size="small" variant="inverse"></lightning-icon>
+                        </button>
+                    </div>
+                    <div class="modal-content success-content">
+                        <div class="success-message">
+                            <div class="success-icon-large">
+                                <lightning-icon icon-name="utility:check" size="large"></lightning-icon>
+                            </div>
+                            <h3>{successTitle}</h3>
+                            <p>{successBody}</p>
+                            <p>{successSubtext}</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="close-btn-footer" onclick={handleClose}>Close</button>
+                    </div>
+                </template>
+
+                <!-- Main Form State -->
+                <template if:false={showSuccess}>
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <div class="header-content">
+                            <div class="header-icon">
+                                <lightning-icon icon-name="utility:question" size="medium" variant="inverse"></lightning-icon>
+                            </div>
+                            <div class="header-text">
+                                <h2 class="modal-title">{modalTitle}</h2>
+                                <p class="modal-subtitle">Contact our team for assistance</p>
+                            </div>
+                        </div>
+                        <button class="close-btn" onclick={handleClose} title="Close">
+                            <lightning-icon icon-name="utility:close" size="small" variant="inverse"></lightning-icon>
+                        </button>
+                    </div>
+
+                    <!-- Modal Content -->
+                    <div class="modal-content">
+                        <!-- Loading Overlay -->
+                        <template if:true={isSubmitting}>
+                            <div class="loading-overlay">
+                                <lightning-spinner alternative-text="Sending message..." size="medium"></lightning-spinner>
+                                <p>Sending your message...</p>
+                            </div>
+                        </template>
+
+                        <!-- Error Message -->
+                        <template if:true={hasError}>
+                            <div class="error-banner">
+                                <lightning-icon icon-name="utility:error" size="small" variant="inverse"></lightning-icon>
+                                <span class="error-text">{errorMessage}</span>
+                                <button class="error-dismiss" onclick={handleDismissError} title="Dismiss">
+                                    <lightning-icon icon-name="utility:close" size="xx-small" variant="inverse"></lightning-icon>
+                                </button>
+                            </div>
+                        </template>
+
+                        <!-- Your Information Section -->
+                        <div class="info-section">
+                            <h3 class="section-title">Your Information</h3>
+                            <div class="info-card">
+                                <!-- Name Row -->
+                                <template if:true={showNameField}>
+                                    <div class="info-row">
+                                        <span class="info-label">{nameLabel}:</span>
+                                        <template if:false={isEditingName}>
+                                            <span class="info-value">{displayName}</span>
+                                            <button class="edit-btn" onclick={handleEditName} title="Edit name">
+                                                <lightning-icon icon-name="utility:edit" size="xx-small"></lightning-icon>
+                                            </button>
+                                        </template>
+                                        <template if:true={isEditingName}>
+                                            <div class="edit-inputs">
+                                                <input type="text" class="edit-input" placeholder={firstNameLabel}
+                                                       value={editedFirstName} oninput={handleFirstNameChange} />
+                                                <input type="text" class="edit-input" placeholder={lastNameLabel}
+                                                       value={editedLastName} oninput={handleLastNameChange} />
+                                                <div class="edit-actions">
+                                                    <button class="save-btn" onclick={handleSaveName} title="Save">
+                                                        <lightning-icon icon-name="utility:check" size="xx-small"></lightning-icon>
+                                                    </button>
+                                                    <button class="cancel-edit-btn" onclick={handleCancelNameEdit} title="Cancel">
+                                                        <lightning-icon icon-name="utility:close" size="xx-small"></lightning-icon>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                                <!-- Company Row -->
+                                <template if:true={showCompanyField}>
+                                    <div class="info-row">
+                                        <span class="info-label">{companyLabel}:</span>
+                                        <template if:false={isEditingCompany}>
+                                            <span class="info-value">{displayCompany}</span>
+                                            <button class="edit-btn" onclick={handleEditCompany} title="Edit company">
+                                                <lightning-icon icon-name="utility:edit" size="xx-small"></lightning-icon>
+                                            </button>
+                                        </template>
+                                        <template if:true={isEditingCompany}>
+                                            <div class="edit-inputs">
+                                                <input type="text" class="edit-input edit-input--full" placeholder={companyLabel}
+                                                       value={editedCompany} oninput={handleCompanyChange} />
+                                                <div class="edit-actions">
+                                                    <button class="save-btn" onclick={handleSaveCompany} title="Save">
+                                                        <lightning-icon icon-name="utility:check" size="xx-small"></lightning-icon>
+                                                    </button>
+                                                    <button class="cancel-edit-btn" onclick={handleCancelCompanyEdit} title="Cancel">
+                                                        <lightning-icon icon-name="utility:close" size="xx-small"></lightning-icon>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                                <!-- Email Row -->
+                                <template if:true={showEmailField}>
+                                    <div class="info-row">
+                                        <span class="info-label">{emailLabel}:</span>
+                                        <template if:false={isEditingEmail}>
+                                            <span class="info-value">{displayEmail}</span>
+                                            <button class="edit-btn" onclick={handleEditEmail} title="Edit email">
+                                                <lightning-icon icon-name="utility:edit" size="xx-small"></lightning-icon>
+                                            </button>
+                                        </template>
+                                        <template if:true={isEditingEmail}>
+                                            <div class="edit-inputs">
+                                                <input type="email" class="edit-input edit-input--full" placeholder={emailLabel}
+                                                       value={editedEmail} oninput={handleEmailChange} />
+                                                <div class="edit-actions">
+                                                    <button class="save-btn" onclick={handleSaveEmail} title="Save">
+                                                        <lightning-icon icon-name="utility:check" size="xx-small"></lightning-icon>
+                                                    </button>
+                                                    <button class="cancel-edit-btn" onclick={handleCancelEmailEdit} title="Cancel">
+                                                        <lightning-icon icon-name="utility:close" size="xx-small"></lightning-icon>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Comments Section -->
+                        <template if:true={showCommentsField}>
+                            <div class="comments-section">
+                                <lightning-textarea
+                                    label={commentsLabel}
+                                    placeholder={commentsPlaceholder}
+                                    value={comments}
+                                    onchange={handleCommentsChange}
+                                    max-length={commentsMaxLength}
+                                    class="comments-input"
+                                ></lightning-textarea>
+                            </div>
+                        </template>
+
+                        <!-- Contact Info Section (conditional) -->
+                        <template if:true={showContactInfo}>
+                            <!-- Divider -->
+                            <div class="divider">
+                                <span class="divider-text">{contactSectionLabel}</span>
+                            </div>
+
+                            <!-- Contact Sections -->
+                            <div class="contact-sections">
+                                <!-- Address -->
+                                <template if:true={showAddressCard}>
+                                    <div class="contact-section">
+                                        <div class="contact-icon">
+                                            <lightning-icon icon-name="utility:location" size="small"></lightning-icon>
+                                        </div>
+                                        <div class="contact-details">
+                                            <h4 class="contact-title">{addressLabel}</h4>
+                                            <p class="contact-text">{addressValue}</p>
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <!-- Email -->
+                                <template if:true={showEmailCard}>
+                                    <div class="contact-section">
+                                        <div class="contact-icon">
+                                            <lightning-icon icon-name="utility:email" size="small"></lightning-icon>
+                                        </div>
+                                        <div class="contact-details">
+                                            <h4 class="contact-title">{contactEmailLabel}</h4>
+                                            <a href={contactEmailHref} class="contact-link">{contactEmailValue}</a>
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <!-- Phone -->
+                                <template if:true={showPhoneCard}>
+                                    <div class="contact-section">
+                                        <div class="contact-icon">
+                                            <lightning-icon icon-name="utility:call" size="small"></lightning-icon>
+                                        </div>
+                                        <div class="contact-details">
+                                            <h4 class="contact-title">{phoneLabel}</h4>
+                                            <a href={phoneHref} class="contact-link">{phoneValue}</a>
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <!-- Social -->
+                                <template if:true={showSocialLinks}>
+                                    <div class="contact-section">
+                                        <div class="contact-icon">
+                                            <lightning-icon icon-name="utility:share" size="small"></lightning-icon>
+                                        </div>
+                                        <div class="contact-details">
+                                            <h4 class="contact-title">Connect With Us</h4>
+                                            <div class="social-links">
+                                                <template if:true={showLinkedIn}>
+                                                    <a href={linkedInUrl}
+                                                       target="_blank"
+                                                       rel="noopener noreferrer"
+                                                       class="social-link"
+                                                       title={linkedInLabel}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                                        </svg>
+                                                    </a>
+                                                </template>
+                                                <template if:true={showYouTube}>
+                                                    <a href={youTubeUrl}
+                                                       target="_blank"
+                                                       rel="noopener noreferrer"
+                                                       class="social-link"
+                                                       title={youTubeLabel}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                                            <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                                                        </svg>
+                                                    </a>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button class="cancel-btn" onclick={handleClose}>Close</button>
+                        <button class="submit-btn" onclick={handleSubmit} disabled={isSubmitting}>
+                            <template if:true={isSubmitting}>
+                                <lightning-spinner alternative-text="Sending..." size="small" variant="inverse"></lightning-spinner>
+                                {submitButtonLoadingLabel}
+                            </template>
+                            <template if:false={isSubmitting}>
+                                <lightning-icon icon-name="utility:email" size="x-small" variant="inverse"></lightning-icon>
+                                {submitButtonLabel}
+                            </template>
+                        </button>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Serum_Isolation_Collection_Mats__c</fullName>
+    <label>Serum Isolation Collection Mats</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>SST</fullName>
+                <default>false</default>
+                <label>SST</label>
+            </value>
+            <value>
+                <fullName>ACD</fullName>
+                <default>false</default>
+                <label>ACD</label>
+            </value>
+            <value>
+                <fullName>CPT Sodium Citrate</fullName>
+                <default>false</default>
+                <label>CPT Sodium Citrate</label>
+            </value>
+            <value>
+                <fullName>CPT Sodium Heparin</fullName>
+                <default>false</default>
+                <label>CPT Sodium Heparin</label>
+            </value>
+            <value>
+                <fullName>EDTA</fullName>
+                <default>false</default>
+                <label>EDTA</label>
+            </value>
+            <value>
+                <fullName>Lithium Heparin</fullName>
+                <default>false</default>
+                <label>Lithium Heparin</label>
+            </value>
+            <value>
+                <fullName>Sodium Citrate</fullName>
+                <default>false</default>
+                <label>Sodium Citrate</label>
+            </value>
+            <value>
+                <fullName>Sodium Heparin</fullName>
+                <default>false</default>
+                <label>Sodium Heparin</label>
+            </value>
+            <value>
+                <fullName>Custom Serum Materials</fullName>
+                <default>false</default>
+                <label>Custom Serum Materials</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

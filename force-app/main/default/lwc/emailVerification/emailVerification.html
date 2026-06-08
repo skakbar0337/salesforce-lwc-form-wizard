@@ -1,0 +1,124 @@
+<template>
+    <div class="email-verification-container">
+        <div class="verification-card">
+            <!-- Header -->
+            <div class="card-header">
+                <h2 class="card-title">Email Verification</h2>
+                <p class="card-description">
+                    Enter your email address to receive an authorization code
+                </p>
+            </div>
+
+            <!-- Email Input Section -->
+            <div class="input-section">
+                <c-dynamic-input
+                    name="email"
+                    label="Email Address"
+                    type="text"
+                    placeholder="Enter your email address"
+                    required
+                    disabled={showAuthCodeInput}
+                    value={email}
+                    show-label
+                    error-message={emailError}
+                    onvaluechange2={handleEmailChange}
+                ></c-dynamic-input>
+
+                <template if:false={showAuthCodeInput}>
+                    <div class="button-group">
+                        <button 
+                            class="btn btn-primary"
+                            onclick={handleSendCode}
+                            disabled={isSendingCode}
+                        >
+                            <template if:true={isSendingCode}>
+                                <lightning-spinner 
+                                    alternative-text="Sending..." 
+                                    size="small">
+                                </lightning-spinner>
+                            </template>
+                            <template if:false={isSendingCode}>
+                                Send Code
+                            </template>
+                        </button>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Authorization Code Input Section -->
+            <template if:true={showAuthCodeInput}>
+                <div class="input-section">
+                    <div class="auth-code-header">
+                        <p class="success-message">
+                            ✓ Authorization code sent to {email}
+                        </p>
+                        <p class="help-text">
+                            Please check your email and enter the code below
+                        </p>
+                    </div>
+
+                    <c-dynamic-input
+                        name="authCode"
+                        label="Authorization Code"
+                        type="text"
+                        placeholder="Enter the code from your email"
+                        required
+                        value={authCode}
+                        show-label
+                        error-message={authCodeError}
+                        onvaluechange2={handleAuthCodeChange}
+                    ></c-dynamic-input>
+
+                    <div class="button-group">
+                        <button 
+                            class="btn btn-primary"
+                            onclick={handleVerifyCode}
+                            disabled={isVerifying}
+                        >
+                            <template if:true={isVerifying}>
+                                <lightning-spinner 
+                                    alternative-text="Verifying..." 
+                                    size="small">
+                                </lightning-spinner>
+                            </template>
+                            <template if:false={isVerifying}>
+                                Verify Code
+                            </template>
+                        </button>
+                        <button 
+                            class="btn btn-secondary"
+                            onclick={handleResendCode}
+                            disabled={isSendingCode}
+                        >
+                            <template if:true={isSendingCode}>
+                                <lightning-spinner 
+                                    alternative-text="Resending..." 
+                                    size="small">
+                                </lightning-spinner>
+                            </template>
+                            <template if:false={isSendingCode}>
+                                Resend Code
+                            </template>
+                        </button>
+                        <button 
+                            class="btn btn-tertiary"
+                            onclick={handleCancel}
+                            disabled={isVerifying}
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <!-- Session Choice Modal -->
+    <template if:true={showSessionChoiceModal}>
+        <c-session-choice-modal
+            session-info={existingSessionData}
+            onstartnew={handleStartNew}
+            onresume={handleResume}>
+        </c-session-choice-modal>
+    </template>
+</template>

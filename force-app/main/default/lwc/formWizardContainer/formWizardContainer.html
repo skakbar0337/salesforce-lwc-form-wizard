@@ -1,0 +1,134 @@
+﻿<template>
+    <div class="wizard-wrapper">
+
+        <div class="wizard-container">
+
+            <!-- Loading Spinner -->
+            <template if:true={isLoading}>
+                <lightning-spinner 
+                    alternative-text="Loading wizard..." 
+                    size="large">
+                </lightning-spinner>
+            </template>
+            
+            <!-- Email Verification Step -->
+            <template if:false={isLoading}>
+                <template if:true={requiresEmailVerification}>
+                    <template if:false={isEmailVerified}>
+                        <c-email-verification
+                            onemailverified={handleEmailVerified}>
+                        </c-email-verification>
+                    </template>
+                </template>
+
+                <!-- Wizard Body (only after email verification / or if not required) -->
+                <template if:true={showWizardContent}>
+
+                    <!-- Help Button - Top right of wizard (conditional) -->
+                    <template if:true={showHelpButton}>
+                        <button class="help-btn" onclick={handleOpenHelp} aria-label={helpButtonLabel}>
+                            <span class="help-btn-text">{helpButtonLabel}</span>
+                        </button>
+                    </template>
+
+                    <!-- Progress Bar with Auto-save Indicator -->
+                    <template if:true={showProgressBar}>
+                        <div class="progress-bar-container">
+                            <c-form-progress-bar
+                                steps={wizardConfig.steps}
+                                active-step={currentStepNumber}>
+                            </c-form-progress-bar>
+
+                            <!-- Auto-save Indicator -->
+                            <div class={autoSaveIndicatorClass}>
+                                <lightning-icon
+                                    icon-name="utility:sync"
+                                    size="x-small"
+                                    class="slds-m-right_x-small spinning-icon">
+                                </lightning-icon>
+                                <span class="slds-text-body_small slds-text-color_weak">
+                                    Saving...
+                                </span>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Main Wizard Content -->
+                    <template if:true={currentStep}>
+                        <!-- Validation Error Banner -->
+                        <template if:true={showValidationBanner}>
+                            <div class="validation-error-banner">
+                                <div class="validation-error-content">
+                                    <lightning-icon
+                                        icon-name="utility:error"
+                                        size="small"
+                                        variant="inverse"
+                                        class="validation-error-icon">
+                                    </lightning-icon>
+                                    <span class="validation-error-text">{validationMessage}</span>
+                                    <button
+                                        class="validation-error-close"
+                                        onclick={hideValidationError}
+                                        title="Close">
+                                        <lightning-icon
+                                            icon-name="utility:close"
+                                            size="x-small"
+                                            variant="inverse">
+                                        </lightning-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Step Content with Slide Animation -->
+                        <div class={stepContentClass}>
+                            <c-form-step-renderer
+                                step-data={currentStep}
+                                visible-sections={visibleSections}
+                                state={state}
+                                wizard-config={wizardConfig}
+                                ondynamicstepschange={handleDynamicStepsChange}
+                                onvaluechange={handleValueChange}
+                                onvaluechange2={handleValueChange2}
+                                onstepadd={handleStepAdd}
+                                onstepremove={handleStepRemove}
+                                oncohortconfigchange={handleCohortConfigChange}>
+                            </c-form-step-renderer>
+                        </div>
+                    </template>
+
+                    <!-- Navigation Buttons -->
+                    <template if:true={showNavigation}>
+                        <c-form-navigation
+                            wizard-type={formType}
+                            show-previous={canGoPrevious}
+                            show-next={canGoNext}
+                            show-submit={showSubmit}
+                            disable-previous={isFirstStep}
+                            disable-next={isSaving}
+                            disable-submit={isSaving}
+                            is-last-step={isLastStep}
+                            onprevious={handlePrevious}
+                            onnext={handleNext}
+                            oncomplete={handleComplete}
+                            onsubmit={handleSubmit}>
+                        </c-form-navigation>
+                    </template>
+                </template>
+            </template>
+
+            <!-- Help Modal -->
+            <template if:true={showHelpModal}>
+                <c-form-help-modal
+                    is-open={showHelpModal}
+                    contact-info={contactInfoForModal}
+                    session-id={state.sessionRecordId}
+                    session-name={state.sessionName}
+                    help-config={helpModalConfig}
+                    onclose={handleCloseHelp}>
+                </c-form-help-modal>
+            </template>
+        </div>
+    </div>
+
+</template>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>61.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Form Progress Bar</masterLabel>
+    <description>Horizontal step progress bar for Form Wizard.</description>
+
+    <!-- Where the component can be used -->
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+
+    <!-- Design-time properties: DO NOT include lightningCommunity__Page here -->
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage,lightning__RecordPage,lightning__HomePage,lightningCommunity__Default">
+            <property
+                name="steps"
+                type="String"
+                label="Steps JSON"
+                description="JSON array of step objects, e.g. [{ &quot;label&quot;: &quot;Contact&quot; }, { &quot;label&quot;: &quot;Shipping&quot; }]"
+            />
+            <property
+                name="activeStep"
+                type="Integer"
+                label="Active Step"
+                description="1-based index of the active step"
+                default="1"
+            />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

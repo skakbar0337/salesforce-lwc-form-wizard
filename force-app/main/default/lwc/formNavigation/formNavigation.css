@@ -1,0 +1,150 @@
+/* Navigation container - fixed at bottom */
+.srf-nav-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 1rem 0;
+}
+
+/* Content wrapper with max-width and centering */
+.srf-nav-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 12rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* When Previous button is shown, space buttons apart */
+.srf-nav-content_has-previous {
+    justify-content: space-between;
+}
+
+/* Base button styles */
+.srf-nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    line-height: 1.5;
+}
+
+/* Previous button - outlined style */
+.srf-nav-button_previous {
+    background: #ffffff;
+    color: #3e3e3c;
+    border-color: #c9c9c9;
+}
+
+.srf-nav-button_previous:hover:not(:disabled) {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.srf-nav-button_previous:active:not(:disabled) {
+    background: #e5e7eb;
+}
+
+/* Next button - primary style */
+.srf-nav-button_next {
+    background: #1b96ff;
+    color: #ffffff;
+    border-color: #1b96ff;
+}
+
+.srf-nav-button_next:hover:not(:disabled) {
+    background: #0b5cab;
+    border-color: #0b5cab;
+}
+
+.srf-nav-button_next:active:not(:disabled) {
+    background: #094a94;
+}
+
+/* Complete button - success style */
+.srf-nav-button_complete {
+    background: #5c9fd6;
+    color: #ffffff;
+    border-color: #5c9fd6;
+}
+
+.srf-nav-button_complete:hover:not(:disabled) {
+    background: #4a8bc2;
+    border-color: #4a8bc2;
+}
+
+.srf-nav-button_complete:active:not(:disabled) {
+    background: #3877ad;
+}
+
+/* Disabled state */
+.srf-nav-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Button icons */
+.srf-nav-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.srf-nav-icon_right {
+    order: 2;
+}
+
+/* Focus styles for accessibility */
+.srf-nav-button:focus {
+    outline: 2px solid #1b96ff;
+    outline-offset: 2px;
+}
+
+.srf-nav-button:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .srf-nav-content {
+        padding: 0 1rem;
+    }
+
+    .srf-nav-button {
+        padding: 0.625rem 1.5rem;
+        font-size: 0.9375rem;
+    }
+
+    .srf-nav-icon {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .srf-nav-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Experience Cloud adjustments */
+.slds-scope .srf-nav-container,
+.comm-page-row .srf-nav-container {
+    position: sticky;
+}

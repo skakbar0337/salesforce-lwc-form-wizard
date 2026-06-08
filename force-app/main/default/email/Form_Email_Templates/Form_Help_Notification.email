@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f9;
+        }
+        .email-container {
+            max-width: 700px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #00a2c2 0%, #0088aa 100%);
+            padding: 1.5rem;
+            border-radius: 8px 8px 0 0;
+            margin: -2rem -2rem 1.5rem -2rem;
+        }
+        .header h2 {
+            color: #ffffff;
+            font-size: 24px;
+            margin: 0;
+            font-weight: 600;
+        }
+        .intro {
+            font-size: 16px;
+            color: #3e3e3c;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .section-header {
+            font-size: 14px;
+            font-weight: 600;
+            color: #706e6b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #00a2c2;
+        }
+        .details-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .details-table tr:nth-child(even) {
+            background-color: #f3f3f3;
+        }
+        .details-table td {
+            padding: 12px;
+            border: 1px solid #dddbda;
+            color: #3e3e3c;
+        }
+        .details-table td:first-child {
+            font-weight: bold;
+            width: 30%;
+            background-color: #f8f8f8;
+        }
+        .details-table a {
+            color: #0070d2;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .details-table a:hover {
+            text-decoration: underline;
+        }
+        .message-box {
+            background-color: #f4f6f9;
+            border-left: 4px solid #00a2c2;
+            padding: 15px;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+        }
+        .message-box p {
+            margin: 0;
+            color: #3e3e3c;
+            font-size: 15px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+        .action-box {
+            background-color: #fff6e5;
+            border-left: 4px solid #ffb75d;
+            padding: 15px;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+        }
+        .action-box p {
+            margin: 0;
+            color: #3e3e3c;
+            font-size: 15px;
+        }
+        .action-box strong {
+            color: #c23934;
+        }
+        .footer {
+            border-top: 1px solid #dddbda;
+            padding-top: 15px;
+            text-align: center;
+            color: #706e6b;
+            font-size: 14px;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h2>Help Request Received</h2>
+        </div>
+
+        <p class="intro">A user has requested assistance while filling out the Dynamic Request Form.</p>
+
+        <div class="section-header">Contact Information</div>
+        <table class="details-table">
+            <tr>
+                <td>Name</td>
+                <td>{{{fullName}}}</td>
+            </tr>
+            <tr>
+                <td>Company</td>
+                <td>{{{company}}}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><a href="mailto:{{{email}}}">{{{email}}}</a></td>
+            </tr>
+            <tr>
+                <td>Session</td>
+                <td><a href="{{{sessionLink}}}" target="_blank">{{{sessionName}}}</a></td>
+            </tr>
+        </table>
+
+        <div class="section-header">User's Message</div>
+        <div class="message-box">
+            <p>{{{comments}}}</p>
+        </div>
+
+        <div class="action-box">
+            <p><strong>Action Required:</strong> Please respond to this help request within <strong>1 business day</strong>.</p>
+        </div>
+
+        <div class="footer">
+            <p>This is an automated notification from the Dynamic Request Form system.</p>
+        </div>
+    </div>
+</body>
+</html>
