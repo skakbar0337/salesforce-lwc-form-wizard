@@ -1,0 +1,27 @@
+# Salesforce CLI cache - contains org usernames and personal metadata
+.sfdx/
+.sf/
+
+# VS Code local settings
+.vscode/
+
+# Claude Code project memory
+.claude/
+
+# Project-local / org-specific files (contain internal references)
+CLAUDE.md
+Instructions.md
+deploy-all.ps1
+deploy-changes.ps1
+Test Results Summary.txt
+test-classes.txt
+scripts/
+config/
+.husky/
+
+# Node modules
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
